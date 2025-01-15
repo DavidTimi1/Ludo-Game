@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludo Game</title>
+
+    <link rel="stylesheet" href="ludo.css">
+    <script src="https://kit.fontawesome.com/9564db1e37.js" crossorigin="anonymous"></script>
+
+    <link rel="icon" href="white-queen.png" type="image/x-icon">
+
+    <link rel="preload" href="assets/bg1.jpg" as="image">
+
+    <!-- prefetch pieces -->
+    <link rel="prefetch" href="assets/green-arrow.png" as="image">
+    <link rel="prefetch" href="assets/red-arrow.png" as="image">
+    <link rel="prefetch" href="assets/blue-arrow.png" as="image">
+    <link rel="prefetch" href="assets/yellow-arrow.png" as="image">
+    <link rel="prefetch" href="assets/green-star.png" as="image">
+    <link rel="prefetch" href="assets/red-star.png" as="image">
+    <link rel="prefetch" href="assets/blue-star.png" as="image">
+    <link rel="prefetch" href="assets/yellow-star.png" as="image">
+
+    <meta property="og:title" content="Ludo Game">
+    <meta property="og:description" content="Play the classical board game - Ludo with friends using this web-based implementation built with HTML, CSS and Javascript!">
+    <meta property="og:image" content="/diceroll.gif">
+    <meta property="og:url" content="/diceroll.gif">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ludo Game">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@DavidTimi_1">
+    <meta name="twitter:creator" content="@DavidTimi_1">
+    <meta name="twitter:title" content="Ludo Game">
+    <meta name="twitter:description" content="Play the classical board game - Ludo with friends using this web-based implementation built with HTML, CSS and Javascript!">
+    <meta name="twitter:image" content="">
+    <meta name="twitter:url" content="https://raw.githack.com/DavidTimi1/Chess/chess1">
+    
+</head>
+<body>
+    <button id="pause-all" class="invisible" onclick="pauseAll()">
+        <i class="fa-solid fa-pause"></i>
+    </button>
+
+    <audio src="assets/audio/click.mp3" id="click-sound" class="game-sound"></audio>
+    <audio src="assets/audio/error.mp3" id="error-sound" class="music-sound"></audio>
+    <audio src="assets/audio/glow.mp3" id="glow-sound" class="music-sound"></audio>
+    <audio src="assets/audio/select.mp3" id="select-sound" class="game-sound"></audio>
+    <audio src="assets/audio/out.mp3" id="out-sound" class="game-sound"></audio>
+    <audio src="assets/audio/roll.mp3" id="roll-sound" class="game-sound"></audio>
+    <audio src="assets/audio/capture.mp3" id="capture-sound" class="music-sound"></audio>
+    <audio src="assets/audio/safe.mp3" id="safe-sound" class="music-sound"></audio>
+    <audio src="assets/audio/slide.mp3" id="slide-sound" class="music-sound"></audio>
+    <!-- <audio id="glow-sound" class="game-music" src="assets/audio/glow2.mp3"></audio> -->
+    <!-- <script>
+        document.getElementById("glow-sound").playbackRate = 1;
+        document.getElementById("glow-sound").loop = true;
+    </script> -->
+
+    <div class="settings-container">
+        <div class="settings-wrapper close">
+            <div class="settings-head">
+                <button onclick="toggleSettings('in')"><i class="fa-solid fa-gear"></i></button>
+                <span>SETTINGS</span>
+            </div>
+            
+            <div class="other-settings">
+                <div id="auto-play">
+                    <span> AUTO-PLAY </span>
+                    <span id="switch-cont" class="on">
+                        <span id="auto-off">ON</span><span id="auto-on">OFF</span>
+                    </span>
+                </div>
+                <div class="sound">
+                    <div id="vol">
+                        <span id="vol-icon">
+                            <i class="fa-solid fa-volume-high active"></i>
+                        </span>
+                        <input type="range" id="vol-slide" min="0" max="5" value="5" onchange="vol('vol')">
+                    </div>
+                    <div id="music">
+                        <span id="music-icon">
+                            <i class="fa-solid fa-music active"></i>
+                        </span>
+                        <input type="range" id="music-slide" min="0" max="5" value="5" onchange="vol('music')">
+                    </div>
+                </div>
+                <span class="disable">
+                    <input type="checkbox" id="no-image" checked="true">
+                    Disable Colour Home Background Images
+                </span>
+                <div class="house-colour-images">
+                    <div id="football-images" class="house-images-list"></div>
+                    <div id="anime-images" class="house-images-list"></div>
+                    <div id="marvel-images" class="house-images-list"></div>
+                    <div id="dc-images" class="house-images-list"></div>
+                </div>
+            </div>
+
+            <footer>
+                <div class="contact">
+                    <p id="phone" class="info" onclick="copy('phone')">
+                        <i class="fa-solid fa-phone"></i>
+                        <small> +234 9022301155 </small>
+                    </p>
+                    <p><a id="mail" class="info" href="mailto:timiballer07@gmail.com">
+                        <i class="fa-solid fa-envelope"></i>
+                        <small>timiballer07@gmail.com</small>
+                    </a></p>
+                </div>
+                  <script>
+                    function copy(id) {
+                        // Get the text field
+                        var copyText = document.getElementById(`${id}`);
+
+                        // Select the text field
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+                        // Copy the text inside the text field
+                        navigator.clipboard.writeText(copyText.value);
+
+                        // Alert the copied text
+                        alert("Copied the text: " + copyText.value);
+                    }
+                  </script>
+                <small>Copyright &copy; <span id="year"></span> David. All Rights Reserved</small>
+                <script>
+                    let date = new Date();
+                    document.getElementById("year").innerHTML = date.getFullYear();
+                </script>
+            </footer>
+        </div>
+    </div>
+
+    <div id="preGame-overlay">
+        <div class="title preGame _0">
+            <!-- title -->
+            <h1>LUDO GAME</h1>
+            <button id="play-but" onclick="overlay(1)">PLAY GAME</button>
+        </div>
+        <div class="players-no hide preGame _1">
+            <div id="4-players" onclick="playersNo(4)">
+                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-users"></i>
+                <span>4 PLAYERS</span>
+            </div>
+            <div id="3-players" onclick="playersNo(3)">
+                <i class="fa-solid fa-users"></i>
+                <span>3 PLAYERS</span>
+            </div>
+            <div id="2-players" onclick="playersNo(2)">
+                <i class="fa-solid fa-user-group"></i>
+                <span>4 PLAYERS</span>
+            </div>
+        </div>
+
+        <form class="register hide preGame _2" onsubmit="overlay(3)">
+            <h2>REGISTER PLAYERS</h2>
+            <h3 id="reg-error"></h3>
+            <label class="nameInput hide">
+                <div class="user-icon"></div>
+                <input type="text" id="player1" class="green" placeholder="Player 1 Name" value="" autocapitalize="characters" maxlength="15">
+            </label>
+            <label class="nameInput hide">
+                <div class="user-icon"></div>
+                <input type="text" id="player2" class="red" placeholder="Player 2 Name" value="BOT" autocapitalize="characters" maxlength="15">
+            </label>
+            <label class="nameInput hide">
+                <div class="user-icon"></div>
+                <input type="text" id="player3" class="blue" placeholder="Player 3 Name" value="BOT" autocapitalize="characters" maxlength="15">
+            </label>
+            <label class="nameInput hide">
+                <div class="user-icon"></div>
+                <input type="text" id="player4" class="yellow" placeholder="Player 4 Name" value="BOT" autocapitalize="characters" maxlength="15">
+            </label>
+            <button id="start">START GAME</button>
+        </form>
+    </div>
+
+    <div class="game-wrapper invisible _3">
+        <div id="turn-div"></div>
+        <div id="p-green-turn" class="player-turn">
+            <div class="player-id">
+                <div class="player-icon green"></div>
+                <div class="player-name"></div>
+            </div>
+            <div class="dice-wrapper green">
+                <img id="die-1" onclick="callRoll()">
+            </div>
+        </div>
+        <div id="p-red-turn" class="player-turn invisible">
+            <div class="player-id">
+                <div class="player-icon red"></div>
+                <div class="player-name"></div>
+            </div>
+            <div class="dice-wrapper red"></div>
+        </div>
+        <div id="p-blue-turn" class="player-turn invisible">
+            <div class="player-id">
+                <div class="player-icon blue"></div>
+                <div class="player-name"></div>
+            </div>
+            <div class="dice-wrapper blue"></div>
+        </div>
+        <div id="p-yellow-turn" class="player-turn invisible">
+            <div class="player-id">
+                <div class="player-icon yellow"></div>
+                <div class="player-name"></div>
+            </div>
+            <div class="dice-wrapper yellow"></div>
+        </div>
+
+        <table id="gameboard">
+            <tr>
+                <td rowspan="6" colspan="6" id="greenhouse" class="green"><span id="greenspan"></span></td>
+                <td id="cell11"  data-move="hor"></td>
+                <td id="cell12" class="red-arrow home-come" data-move="hor"></td>
+                <td id="cell13" data-move="hor"></td>
+                <td rowspan="6" colspan="6" id="redhouse" class="red"><span id="redspan"></span></td>
+            </tr>
+            <tr>
+                <td id="cell10" data-move="vert"></td>
+                <td id="cellSpecred1" class="red" data-move="vert"></td>
+                <td id="cell14" class="red home-cell safe" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell9" class="red-star safe" data-move="vert"></td>
+                <td id="cellSpecred2" class="red" data-move="vert"></td>
+                <td id="cell15" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell8" data-move="vert"></td>
+                <td id="cellSpecred3" class="red" data-move="vert"></td>
+                <td id="cell16" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell7" data-move="vert"></td>
+                <td id="cellSpecred4" class="red" data-move="vert"></td>
+                <td id="cell17" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell6" data-move="vert"></td>
+                <td id="cellSpecred5" class="red" data-move="vert"></td>
+                <td id="cell18" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell52" data-move="vert"></td>
+                <td id="cell1" class="green home-cell safe" data-move="hor"></td>
+                <td id="cell2" data-move="hor"></td>
+                <td id="cell3" data-move="hor"></td>
+                <td id="cell4" data-move="hor"></td>
+                <td id="cell5" data-move="hor"></td>
+                <td rowspan="3" colspan="3" id="centre">
+                    <table id="centre-table">
+                        <tr>
+                            <td id="cellSpecred6" class="finish" data-move="vert"></td>
+                        </tr>
+                        <tr>
+                            <td id="cellSpecgreen6" class="finish" data-move="hor"></td>
+                            <td id="centre-finish"></td>
+                            <td id="cellSpecblue6" class="finish" data-move="hor"></td>
+                        </tr>
+                        <tr>
+                            <td id="cellSpecyellow6" class="finish" data-move="vert"></td>
+                        </tr>
+                    </table>
+                </td>
+                <td id="cell19" data-move="hor"></td>
+                <td id="cell20" data-move="hor"></td>
+                <td id="cell21" data-move="hor"></td>
+                <td id="cell22" class="blue-star safe" data-move="hor"></td>
+                <td id="cell23" data-move="hor"></td>
+                <td id="cell24" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell51" class="green-arrow home-come" data-move="vert"></td>
+                <td id="cellSpecgreen1" class="green" data-move="hor"></td>
+                <td id="cellSpecgreen2" class="green" data-move="hor"></td>
+                <td id="cellSpecgreen3" class="green" data-move="hor"></td>
+                <td id="cellSpecgreen4" class="green" data-move="hor"></td>
+                <td id="cellSpecgreen5" class="green" data-move="hor"></td>
+                <td id="cellSpecblue5" class="blue" data-move="hor"></td>
+                <td id="cellSpecblue4" class="blue" data-move="hor"></td>
+                <td id="cellSpecblue3" class="blue" data-move="hor"></td>
+                <td id="cellSpecblue2" class="blue" data-move="hor"></td>
+                <td id="cellSpecblue1" class="blue" data-move="hor"></td>
+                <td id="cell25" class="blue-arrow home-come" data-move="vert"></td>
+            </tr>
+            
+            <tr>
+                <td id="cell50" data-move="vert"></td>
+                <td id="cell49" data-move="hor"></td>
+                <td id="cell48" class="green-star safe" data-move="hor"></td>
+                <td id="cell47" data-move="hor"></td>
+                <td id="cell46" data-move="hor"></td>
+                <td id="cell45" data-move="hor"></td>
+                <td id="cell31" data-move="hor"></td>
+                <td id="cell30" data-move="hor"></td>
+                <td id="cell29" data-move="hor"></td>
+                <td id="cell28" data-move="hor"></td>
+                <td id="cell27" class="blue home-cell safe"></td>
+                <td id="cell26" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td rowspan="6" colspan="6" id="yellowhouse" class="yellow"><span id="yellowspan"></span></td>
+                <td id="cell44" data-move="vert"></td>
+                <td id="cellSpecyellow5" class="yellow" data-move="vert"></td>
+                <td id="cell32" data-move="vert"></td>
+                <td rowspan="6" colspan="6" id="bluehouse" class="blue"><span id="bluespan"></span></td>
+            </tr>
+            <tr>
+                <td id="cell43" data-move="vert"></td>
+                <td id="cellSpecyellow4" class="yellow" data-move="vert"></td>
+                <td id="cell33" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell42" data-move="vert"></td>
+                <td id="cellSpecyellow3" class="yellow" data-move="vert"></td>
+                <td id="cell34" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell41" data-move="vert"></td>
+                <td id="cellSpecyellow2" class="yellow" data-move="vert"></td>
+                <td id="cell35" class="yellow-star safe" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell40" class="yellow home-cell safe" data-move="vert"></td>
+                <td id="cellSpecyellow1" class="yellow" data-move="vert"></td>
+                <td id="cell36" data-move="vert"></td>
+            </tr>
+            <tr>
+                <td id="cell39" data-move="hor"></td>
+                <td id="cell38" class="yellow-arrow home-come" data-move="hor"></td>
+                <td id="cell37" data-move="hor"></td>
+            </tr>
+        </table>
+        
+    </div>
+
+    <span id="store-roll" class="hide"></span>
+    <span id="store" class="hide"></span>
+    <span id="store-act" class="hide"></span>
+
+    <div class="hide">
+        <i class="fa-solid fa-volume-xmark"></i>
+        <i class="fa-solid fa-volume-low"></i>
+        <span class="fa-stack fa-2x music-slash">
+            <i class="fa-solid fa-music fa-stack-1x"></i>
+            <i class="fa-solid fa-xmark fa-stack-1x"></i>            
+        </span>
+    </div>
+
+    <div class="Overlay hide">
+        <div id="pause-overlay" class="hide">
+            <h3>Paused</h3>
+            <div class="win-but">
+                <button id="resume" onclick="resume()"><i class="fa-solid fa-play"></i></button>
+                <button onclick="toggleSettings('out')"><i class="fa-solid fa-gear open"></i></button>
+                <button onclick="verify('restartGame()')"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="verify('toMainMenu()')"><i class="fa-solid fa-house"></i></button>
+            </div>
+        </div>
+        <div id="verify-overlay" class="hide">
+            <h2>
+                This would delete your current game progress.
+                <p>
+                    Do you wish to continue ?
+                </p>
+            </h2>
+            <div class="vert-but">
+                <button id="yes" onclick="vertAction()">YES</button>
+                <button id="no" onclick="closeVert()">NO</button>
+            </div>
+        </div>
+        <div id="winner-overlay" class="hide">
+            <h3 id="situation">
+                Game Over
+            </h3>
+            <ol>
+                <li id="place-1" class="rank hide"></li>
+                <li id="place-2" class="rank hide"></li>
+                <li id="place-3" class="rank hide"></li>
+                <li id="place-4" class="rank hide"></li>
+            </ol>
+            <ul class="fa-ul"></ul>
+            <div class="win-but">
+                <button id="resume" onclick="resume()" class="paused hide"><i class="fa-solid fa-play"></i></button>
+                <button onclick="restartGame()" class="over hide"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="toMainMenu()" class="over hide"><i class="fa-solid fa-house"></i></button>
+                <button onclick="verify('restartGame()')" class="paused hide"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="verify('toMainMenu()')" class="paused hide"><i class="fa-solid fa-house"></i></button>
+            </div>
+        </div> 
+    </div>
+    
+</body>
+<script src="ludo.js"></script>
+<script src="cells.js"></script>
+<script src="./Roll_The_Dice/roll_dice.js"></script>
+</html>
