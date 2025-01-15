@@ -1,0 +1,627 @@
+
+body{
+    margin-top: 0px;
+    background-image: url("bg1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Arial, Helvetica, sans-serif;
+    word-spacing: 1px;
+    letter-spacing: 0.3px;
+    transition: all 0.5s ease-in-out ;
+    user-select: none;
+}
+
+#preGame-overlay{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.preGame{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 350px;
+    height: 300px;
+    background-color:rgba(255, 255, 255, 0.8);
+    border: 1px solid white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px black;
+}
+
+
+h1{
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+
+#reg-error{
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: 0px 0px 3px black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.players-no div{
+    width: 70%;
+    height: 20%;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: bisque;
+    border-bottom: 2px solid black;
+}
+
+
+input[type=text]{
+    background-color: transparent;
+    border: none;
+}
+
+button {
+    font-size: 25px;
+    letter-spacing: normal;
+    border-radius: 1rem;
+    padding: .5rem;
+    line-height: 20px;
+    background-color: #00000022;
+}
+
+
+#pause-all{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.game-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Overlay{
+    position: fixed;
+    text-align: center;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+
+#winner-overlay,
+#pause-overlay,
+#verify-overlay{
+    position: absolute;
+    font-size: 20px;
+    font-weight: 900;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-40%);
+    width: 350px;
+    height: 400px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: bisque;    
+    box-shadow: 0px 0px 5px black;
+}
+#pause-overlay{
+    height: 200px;
+    width: 400px;
+}
+ul,ol{
+    width: 100px;
+}
+li{
+    font-size: 30px;
+    text-align: center;
+    margin-left: 80px;
+}
+.win-but{
+    width: 100%;
+    position: absolute;
+    bottom: 30px;    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.nameInput{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 80%;;
+}
+.fa-robot,
+.fa-user{
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-bottom: auto;
+    height: 100%;
+    text-shadow: 0px 0px 2px black;
+}
+.fa-gear{
+    font-size: 20px;
+    transition: transform .5s ease-in-out;
+}
+
+.settings-container{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -5;
+}
+
+.settings-wrapper{
+    position: absolute;
+    transition: transform .5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    background-color: grey;
+    color: white;
+    font-weight: 500;
+    box-shadow: 2px 0px 5px black;
+    border-radius: 0px 10px 10px 0px;
+    font-size: 15px;
+    height: 100%;
+    width: 50%;
+    left: 0px;
+    
+    &.close {
+        transform: translate(-100%);
+    }
+}
+
+.settings-head{
+    height: 20px;
+    padding-top: 10px;
+    text-align: right;
+}
+.settings-head span{
+    width: 80%;
+    font-size: 20px;
+    font-weight: bold;
+    font-variant: small-caps;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 0.3px;
+    display: inline-block;
+    margin-left: 20px;
+    text-align: center;
+}
+.other-settings{
+    margin-top: 7%;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+    line-break: auto;
+    width: 90%;
+    height: 77%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+}
+#switch-cont{
+    display: inline-block;
+    text-align: center;
+    justify-content: baseline;
+    background-color: blue;
+    height: 20px;
+    width: 70px;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0px 0px 3px black;
+    border-radius: 20px;
+    box-sizing: border-box;
+    transition: background-color 0.20s ease-in-out;
+}
+#auto-on{
+    display: inline-block;
+    color: white;
+    background-color: white;
+    height: 100%;
+    width: 35px;
+    border-radius: 20px;
+    transition: background-color 0.20s ease-in-out;
+}
+#auto-off{
+    display: inline-block;
+    color: white;
+    height: 100%;
+    width: 35px;
+    border-radius: 20px;
+    transition: background-color 0.20s ease-in-out;
+}
+.sound{
+    height: 20%;
+    width: 70%;
+}
+.container input,
+.container i{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 25px;
+}
+.sound input{
+    width: 60%;
+    height: 20px;
+    align-self: baseline;
+    box-shadow: 1px 1px 5px black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.house-colour-images{
+    width: 500px;
+    height: 150px;
+    text-align: center;
+}
+.disable{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+#no-image{
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+    margin-left: 5px;
+}
+footer{
+    position: absolute;
+    bottom: 0px;
+    height: auto;
+    width: 100%;
+    text-align: center;
+    background: linear-gradient(grey,black);
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    border-radius: 0px 0px 10px 0px;
+    font-weight: bold;
+    color: white;
+    user-select:text;
+}
+footer p{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+#turn-div{
+    text-align: center;
+    word-spacing: 1px;
+    font-family: "Poppins",sans-serif;
+    font-weight: 600;
+    width: 600px;
+    font-size: xx-large;
+    box-shadow: 0px 5px 5px 0.5px #130a07;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+.yellow{
+    background: linear-gradient(135deg, black -20%,yellow, white 150%);
+}
+.blue{
+    background: linear-gradient(135deg, black -20%,blue, white 150%);
+}
+.green{
+    background: linear-gradient(135deg, black -20%,green, white 150%);
+}
+.red{
+    background: linear-gradient(135deg, black -20%,red, white 150%);
+}
+#centre{
+    background: linear-gradient(
+      0deg,
+      yellow,
+      rgba(255, 0, 0, 0) 45%
+    ), 
+    linear-gradient(
+        90deg, 
+        green,
+        rgba(0, 255, 0, 0) 55%
+    ),
+    linear-gradient(
+        180deg, 
+        red,
+        rgba(0, 255, 0, 0) 55%
+    ),
+    linear-gradient(
+        270deg,
+        rgba(0, 0, 255, 0.8),
+        rgba(0, 0, 255, 0) 60%
+    );
+}
+.spin{
+    animation: spin 1.1s infinite;
+    animation-timing-function: ease-out;
+}
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(1080deg);
+    }
+}
+.but{
+    position: absolute;
+    top: 30px;
+    left: 5px;
+    font-size: 30px;
+    margin: 20px;
+    border-radius: 10px;
+    width:max-content;
+    text-align: center;
+}
+.glow{
+    animation: glow 0.5s infinite;
+}
+@keyframes glow{
+    0%{
+        stroke: grey;
+    }
+    50%{
+        stroke: #fff;
+    }
+    100%{
+        stroke: grey;
+    }
+}
+/* span{
+    box-shadow: 0px 0px 5px 2px #130a07;
+    width: 60px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    font-size: 40px;
+    font-weight: 900;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+} */
+
+
+#centre-table{
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+}
+
+#centre-table tr{
+    display: flex;
+    justify-content: center;
+    height: 33%;
+    width: 100%;
+}
+
+#centre-table td{
+    border: none;
+}
+
+.all-pieces{
+    transition: all 0.3s ease-out ;
+}
+
+.player-turn{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: baseline;
+}
+
+.player-id{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.player-icon{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 3px solid white;
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+}
+.player-icon i{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: auto;
+    font-size: 60px;
+}
+.player-name{
+    color: white;
+    text-align: center;
+    font-size: large;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    height: 15px;
+    width: fit-content;
+}
+
+.dice-wrapper{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 3px solid white;
+    border-radius: 20%;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    text-align: center;
+}
+#die-1{
+    width: 90%;
+    height: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+
+@media screen and (max-width: 600px){
+    #gameboard{
+        position: relative;
+        height: 90vw;
+        width: 90vw;
+        margin-top: 20%;
+        margin-bottom: 20%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #eee;
+        border-radius: 5px;
+    }
+    
+    td{
+        height: 6.5vw;
+        width: 6.5vw;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 0px;
+        margin-top: 0.2px;
+        margin-left: 0.2px;
+        margin-bottom: 0.2px;
+        margin-right: 0.2px;
+        text-align: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+    
+    .settings-wrapper{
+        left: -105%;
+        width: 100%;
+    }
+    .settings-left{
+        left: -105%;
+    }
+    .settings-out{
+        left: 0%;
+    }
+    @keyframes hide{
+        0%{
+            left: 0px;
+        }
+        20%{
+            left: 10px;
+        }
+        100%{
+            left: -105%;
+        }
+    }
+    #p-green-turn{
+        left: 15%;
+        top: 1%;
+        flex-direction: row;
+    }
+    #p-red-turn{
+        right: 15%;
+        top: 1%;
+        flex-direction: row-reverse;
+    }
+    #p-blue-turn{
+        right: 15%;
+        bottom: 1%;
+        flex-direction: row-reverse;
+    }
+    #p-yellow-turn{
+        left: 15%;
+        bottom: 1%;
+        flex-direction: row;
+    }    
+}
+@media screen and (min-width: 601px){
+    #gameboard{
+        height: 90vh;
+        width: 90vh;
+        text-align: center;
+        margin-top: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #eee;
+        border-radius: 5px;
+    }
+    
+    td{
+        height: 6.2vh;
+        width: 6.2vh;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 0px;
+        margin-top: 0.2px;
+        margin-left: 0.2px;
+        margin-bottom: 0.2px;
+        margin-right: 0.2px;
+        text-align: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+    
+    #p-green-turn{
+        left: 15%;
+        top: 15%;
+        flex-direction: column;
+    }
+    #p-red-turn{
+        right: 15%;
+        top: 15%;
+        flex-direction: column;
+    }
+    #p-blue-turn{
+        right: 15%;
+        top: 75%;
+        flex-direction: column-reverse;
+    }
+    #p-yellow-turn{
+        left: 15%;
+        top: 75%;
+        flex-direction: column-reverse;
+    }
+}
+
+.hide{
+    display: none;
+}
+
+.no-trans {
+    transition: none !important;
+}
+
+.invisible{
+    visibility: hidden !important;
+}
