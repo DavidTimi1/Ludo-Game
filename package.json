@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/DavidTimi1/Ludo-Game/issues"
   },
-  "homepage": "https://davidtimi1.github.io/Ludo",
+  "homepage": "https://davidtimi1.github.io/Ludo/",
   "devDependencies": {
     "gh-pages": "^6.3.0"
   }

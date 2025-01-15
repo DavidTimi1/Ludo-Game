@@ -65,7 +65,7 @@ function constructCell (selector, prev, next){
 let arrows = document.getElementsByClassName("home-come");
 for (let cell of arrows) {
     let src = cell.classList[0];
-    cell.style.backgroundImage = `url(${src}.png)`;
+    cell.style.backgroundImage = `url(assets/${src}.png)`;
 }
 
 let safeCells = document.getElementsByClassName("safe");
@@ -74,7 +74,7 @@ for (let cell of safeCells) {
         // cell.style.backgroundImage = "url()"
     } else {
         let src = cell.classList[0];
-        cell.style.backgroundImage = `url(${src}.png)`;
+        cell.style.backgroundImage = `url(assets/${src}.png)`;
     }
 }
 
