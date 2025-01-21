@@ -1,10 +1,9 @@
 module.exports = {
-  purge: ['./src/**/*.{html,js}', './public/index.html'],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    './ludo.html',
+    './src/**/*.{html,js,jsx,ts,tsx,vue}',
+  ],
   theme: {
-    extend: {},
-  },
-  variants: {
     extend: {},
   },
   plugins: [],

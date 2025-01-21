@@ -5,7 +5,8 @@
   "main": "ludo.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "postcss styles.css -o output.css",
+    "build:css": "postcss ludo.css -o output.css",
+    "watch:css": "postcss ludo.css -o output.css --watch",
     "deploy": "gh-pages -d ."
   },
   "repository": {
@@ -27,6 +28,12 @@
   },
   "homepage": "https://davidtimi1.github.io/Ludo/",
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "postcss-cli": "^11.0.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17"
   }
 }
