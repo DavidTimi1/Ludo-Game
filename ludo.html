@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ludo Game</title>
 
-    <link rel="stylesheet" href="ludo.css">
     <link href="output.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9564db1e37.js" crossorigin="anonymous"></script>
 
@@ -24,8 +23,10 @@
     <link rel="prefetch" href="assets/blue-star.png" as="image">
     <link rel="prefetch" href="assets/yellow-star.png" as="image">
 
+    <!-- <script src="http://localhost:3001/public-chats/loader.js" id="lily-loader-script" type="module"></script> -->
+
     <meta property="og:title" content="Ludo Game">
-    <meta property="og:description" content="Play the classical board game - Ludo with friends using this web-based implementation built with HTML, CSS and Javascript!">
+    <meta property="og:description" content="Play the classical board game - Ludo with friends or against AI using this web-based implementation built with HTML, CSS and Javascript!">
     <meta property="og:image" content="/diceroll.gif">
     <meta property="og:url" content="/diceroll.gif">
     <meta property="og:type" content="website">
@@ -35,12 +36,13 @@
     <meta name="twitter:site" content="@DavidTimi_1">
     <meta name="twitter:creator" content="@DavidTimi_1">
     <meta name="twitter:title" content="Ludo Game">
-    <meta name="twitter:description" content="Play the classical board game - Ludo with friends using this web-based implementation built with HTML, CSS and Javascript!">
+    <meta name="twitter:description" content="Play the classical board game - Ludo with friends or against AI using this web-based implementation built with HTML, CSS and Javascript!">
     <meta name="twitter:image" content="">
     <meta name="twitter:url" content="https://raw.githack.com/DavidTimi1/Chess/chess1">
     
 </head>
-<body>
+
+<body class="m-0 p-0 w-screen h-screen bg-cover bg-no-repeat bg-center font-sans transition-all duration-500 ease-in-out select-none" style="background-image: url('assets/bg1.jpg');">
     <button id="pause-all" class="invisible" onclick="pauseAll()">
         <i class="fa-solid fa-pause"></i>
     </button>
@@ -136,29 +138,59 @@
         </div>
     </div>
 
-    <div id="preGame-overlay">
+    <div id="preGame-overlay" class="fixed top-0 left-0 w-full h-full text-center">
+
+        <!-- First view -->
         <div class="title preGame _0">
-            <!-- title -->
-            <h1>LUDO GAME</h1>
-            <button id="play-but" onclick="overlay(1)">PLAY GAME</button>
+            <h1 class="text-5xl mb-4">
+                LUDO GAME
+            </h1>
+
+            <button id="play-but" type="button" onclick="overlay(1)">
+                PLAY GAME
+            </button>
         </div>
-        <div class="players-no hide preGame _1">
+
+        <!-- Second View -->
+        <div class="hide preGame _1">
+            <div class="grid grid-cols-2 gap-4"></div>
+                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
+                    <img src="assets/diceroll.gif" alt="Mode 1" class="w-16 h-16 mb-2">
+                    <span>Mode 1</span>
+                </div>
+                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
+                    <img src="assets/diceroll.gif" alt="Mode 2" class="w-16 h-16 mb-2">
+                    <span>Mode 2</span>
+                </div>
+                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
+                    <img src="assets/diceroll.gif" alt="Mode 3" class="w-16 h-16 mb-2">
+                    <span>Mode 3</span>
+                </div>
+                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
+                    <img src="assets/diceroll.gif" alt="Mode 4" class="w-16 h-16 mb-2">
+                    <span>Mode 4</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Third View -->
+        <div class="players-no hide preGame _2">
             <div id="4-players" onclick="playersNo(4)">
                 <i class="fa-solid fa-user"></i>
                 <i class="fa-solid fa-users"></i>
-                <span>4 PLAYERS</span>
+                <span> 4 PLAYERS </span>
             </div>
             <div id="3-players" onclick="playersNo(3)">
                 <i class="fa-solid fa-users"></i>
-                <span>3 PLAYERS</span>
+                <span> 3 PLAYERS </span>
             </div>
             <div id="2-players" onclick="playersNo(2)">
                 <i class="fa-solid fa-user-group"></i>
-                <span>4 PLAYERS</span>
+                <span> 2 PLAYERS </span>
             </div>
         </div>
 
-        <form class="register hide preGame _2" onsubmit="overlay(3)">
+        <form class="register hide preGame _3" onsubmit="overlay(3)">
             <h2>REGISTER PLAYERS</h2>
             <h3 id="reg-error"></h3>
             <label class="nameInput hide">
