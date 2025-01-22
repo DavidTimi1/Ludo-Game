@@ -561,6 +561,9 @@ video {
 .items-center {
   align-items: center;
 }
+.gap-2 {
+  gap: 0.5rem;
+}
 .gap-4 {
   gap: 1rem;
 }
@@ -629,17 +632,6 @@ video {
     text-shadow: 0px 0px 3px black;
     margin-top: 0px;
     margin-bottom: 0px;
-}
-
-.players-no div{
-    width: 70%;
-    height: 20%;
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 10px;
-    background-color: bisque;
-    border-bottom: 2px solid black;
 }
 
 

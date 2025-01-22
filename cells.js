@@ -55,8 +55,8 @@ function constructCell (selector, prev, next){
     prev = typeof prev == Object? prev : {default: prev};
 
     let toString = _ => `Game cell at ${selector}`,
-    getNext = col => next[col] || next["default"],
-    getPrev = col => prev[col] || prev["default"];
+    getNext = col => next[col] ?? next["default"],
+    getPrev = col => prev[col] ?? prev["default"];
 
     elem.cell = {prev, next, toString, getNext, getPrev};
 }

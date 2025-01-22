@@ -26,17 +26,6 @@
     margin-bottom: 0px;
 }
 
-.players-no div{
-    width: 70%;
-    height: 20%;
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 10px;
-    background-color: bisque;
-    border-bottom: 2px solid black;
-}
-
 
 input[type=text]{
     background-color: transparent;

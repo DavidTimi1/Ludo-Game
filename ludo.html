@@ -23,8 +23,6 @@
     <link rel="prefetch" href="assets/blue-star.png" as="image">
     <link rel="prefetch" href="assets/yellow-star.png" as="image">
 
-    <!-- <script src="http://localhost:3001/public-chats/loader.js" id="lily-loader-script" type="module"></script> -->
-
     <meta property="og:title" content="Ludo Game">
     <meta property="og:description" content="Play the classical board game - Ludo with friends or against AI using this web-based implementation built with HTML, CSS and Javascript!">
     <meta property="og:image" content="/diceroll.gif">
@@ -142,18 +140,20 @@
 
         <!-- First view -->
         <div class="title preGame _0">
-            <h1 class="text-5xl mb-4">
-                LUDO GAME
-            </h1>
+            <div class="flex flex-col items-center w-full gap-2">
+                <h1 class="text-5xl mb-4">
+                    LUDO GAME
+                </h1>
 
-            <button id="play-but" type="button" onclick="overlay(1)">
-                PLAY GAME
-            </button>
+                <button id="play-but" type="button" onclick="overlay(1)">
+                    PLAY GAME
+                </button>
+            </div>
         </div>
 
         <!-- Second View -->
-        <div class="hide preGame _1">
-            <div class="grid grid-cols-2 gap-4"></div>
+        <!-- <div class="hide preGame _1">
+            <div class="grid grid-cols-2 gap-4 w-full">
                 <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
                     <img src="assets/diceroll.gif" alt="Mode 1" class="w-16 h-16 mb-2">
                     <span>Mode 1</span>
@@ -171,45 +171,49 @@
                     <span>Mode 4</span>
                 </div>
             </div>
-        </div>
+        </div> -->
         
         <!-- Third View -->
-        <div class="players-no hide preGame _2">
-            <div id="4-players" onclick="playersNo(4)">
-                <i class="fa-solid fa-user"></i>
-                <i class="fa-solid fa-users"></i>
-                <span> 4 PLAYERS </span>
-            </div>
-            <div id="3-players" onclick="playersNo(3)">
-                <i class="fa-solid fa-users"></i>
-                <span> 3 PLAYERS </span>
-            </div>
-            <div id="2-players" onclick="playersNo(2)">
-                <i class="fa-solid fa-user-group"></i>
-                <span> 2 PLAYERS </span>
+        <div class="hide preGame _1">
+            <div class="flex flex-col items-center w-full gap-2">
+                <button type="button" id="4-players" onclick="playersNo(4)">
+                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-users"></i>
+                    <span> 4 PLAYERS </span>
+                </button>
+                <button type="button" id="3-players" onclick="playersNo(3)">
+                    <i class="fa-solid fa-users"></i>
+                    <span> 3 PLAYERS </span>
+                </button>
+                <button type="button" id="2-players" onclick="playersNo(2)">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span> 2 PLAYERS </span>
+                </button>
             </div>
         </div>
 
-        <form class="register hide preGame _3" onsubmit="overlay(3)">
-            <h2>REGISTER PLAYERS</h2>
-            <h3 id="reg-error"></h3>
-            <label class="nameInput hide">
-                <div class="user-icon"></div>
-                <input type="text" id="player1" class="green" placeholder="Player 1 Name" value="" autocapitalize="characters" maxlength="15">
-            </label>
-            <label class="nameInput hide">
-                <div class="user-icon"></div>
-                <input type="text" id="player2" class="red" placeholder="Player 2 Name" value="BOT" autocapitalize="characters" maxlength="15">
-            </label>
-            <label class="nameInput hide">
-                <div class="user-icon"></div>
-                <input type="text" id="player3" class="blue" placeholder="Player 3 Name" value="BOT" autocapitalize="characters" maxlength="15">
-            </label>
-            <label class="nameInput hide">
-                <div class="user-icon"></div>
-                <input type="text" id="player4" class="yellow" placeholder="Player 4 Name" value="BOT" autocapitalize="characters" maxlength="15">
-            </label>
-            <button id="start">START GAME</button>
+        <form class="register hide preGame _2" onsubmit="overlay(3)">
+            <div class="flex flex-col items-center w-full gap-2">
+                <h2>REGISTER PLAYERS</h2>
+                <h3 id="reg-error"></h3>
+                <label class="nameInput hide">
+                    <div class="user-icon"></div>
+                    <input type="text" id="player1" class="green" placeholder="Player 1 Name" value="" autocapitalize="characters" maxlength="15">
+                </label>
+                <label class="nameInput hide">
+                    <div class="user-icon"></div>
+                    <input type="text" id="player2" class="red" placeholder="Player 2 Name" value="BOT" autocapitalize="characters" maxlength="15">
+                </label>
+                <label class="nameInput hide">
+                    <div class="user-icon"></div>
+                    <input type="text" id="player3" class="blue" placeholder="Player 3 Name" value="BOT" autocapitalize="characters" maxlength="15">
+                </label>
+                <label class="nameInput hide">
+                    <div class="user-icon"></div>
+                    <input type="text" id="player4" class="yellow" placeholder="Player 4 Name" value="BOT" autocapitalize="characters" maxlength="15">
+                </label>
+                <button id="start">START GAME</button>
+            </div>
         </form>
     </div>
 
