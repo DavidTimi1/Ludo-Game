@@ -108,6 +108,7 @@ let overlay = count => {
         document.getElementsByClassName(`_${count}`)[0].classList.remove("hide");
 
         if (count != 2) dispatchEvent(new Event('close reg'))
+
     } else {
         let ev = event;
         ev.preventDefault();
@@ -124,12 +125,13 @@ let overlay = count => {
             let inp = validInputs[j].value;
 
             // if there are player name errors don't show gameboard
-            if (inp == "BOT") {
+            if (!inp || inp == "BOT") {
                 if (j == len - 1 && allBots) {
                     document.getElementById("reg-error").innerText = "There must be at least 1 User Player";
                     errorAud.play();
                     return;
                 }
+
             } else {
                 if (usedNames.includes(inp)) {
                     document.getElementById("reg-error").innerText = "Two players cannot have same name";
@@ -524,7 +526,7 @@ let play = (roll, piece) => {
         let moved = false;
         
         // visually move the piece
-        move(pieceElem, cont, destElem)
+        move(pieceElem, color, cont, destElem)
 
         addEventListener('transitionsEnded', pluto, { once: true })
         // failsafe
@@ -668,7 +670,7 @@ function arrangePile(address, item) {
         piece.classList.remove("no-trans");
 }
 
-function move(pieceElem, orignElem, destElem){
+function move(pieceElem, color, orignElem, destElem){
     // // if on same line of movement
     // if (orignElem.dataset.move == destElem.dataset.move){
     //     pieceElem.style.left = destElem.getBoundingClientRect().x + "px";
@@ -698,7 +700,7 @@ function move(pieceElem, orignElem, destElem){
     //         }, { once: true })
     //     }
     // }
-    translateTo(Cell(orignElem).getNext());
+    translateTo(Cell(orignElem).getNext(color));
 
     function translateTo(next){
         let nextElem = document.querySelector(next);
@@ -710,7 +712,7 @@ function move(pieceElem, orignElem, destElem){
         pieceElem.addEventListener(transitionEnd, () => {
             if (destElem != nextElem){
                 // after transition move to next
-                return translateTo(Cell(nextElem).getNext())
+                return translateTo(Cell(nextElem).getNext(color))
             }
             dispatchEvent(new Event('transitionsEnded'));
         }, { once: true })
@@ -723,33 +725,54 @@ function move(pieceElem, orignElem, destElem){
 }
 
 function goBack(obj) {
-    let tracker = obj.pos, ID = obj.id, hue = obj.color;
-    let elem = document.getElementById(ID);
-
-    let contPos = document.getElementById(tracker).getBoundingClientRect();
-    elem.style.position = "absolute";
-    elem.style.top = contPos.y + "px";
-    elem.style.left = contPos.x + "px";
-
-    elem.classList.remove("no-trans");
-
+    const {pos, id, color} = obj;
+    let orignElem = document.getElementById(pos), pieceElem = document.getElementById(id);
+    
     captureAud.play();
+    translateTo(Cell(orignElem).getPrev(color));
 
-    let tmp = document.getElementById(`${hue}span`).getBoundingClientRect();
-    elem.style.left = tmp.x + "px";
-    elem.style.top = tmp.y + "px";
-    elem.style.transitionDuration = '';
 
-    elem.addEventListener(transitionEnd, function () {
-        document.getElementById(`${hue}house`).appendChild(elem);
-        arrangePile(tracker);
-        arrangePile(null, elem);
+    function translateTo(prev){
+        let prevElem = document.querySelector(prev ?? '');
 
-        elem.style.position = elem.style.top = elem.style.left = "";
+        // move to positon
+        pieceElem.style.left = prevElem.getBoundingClientRect().x + "px";
+        pieceElem.style.top = prevElem.getBoundingClientRect().y + "px";
 
-        obj.out = false;
-        obj.pos = `${hue}house`;
-    }, {once: true});
+        pieceElem.addEventListener(transitionEnd, () => {
+            if (prevElem != null){
+                // after transition move to previous
+                return translateTo(Cell(prevElem).getPrev(color))
+            }
+            dispatchEvent(new Event('transitionsEnded'));
+        }, { once: true })
+
+    }
+
+    // let contPos = document.getElementById(tracker).getBoundingClientRect();
+    // elem.style.position = "absolute";
+    // elem.style.top = contPos.y + "px";
+    // elem.style.left = contPos.x + "px";
+
+    // elem.classList.remove("no-trans");
+
+    // captureAud.play();
+
+    // let tmp = document.getElementById(`${hue}span`).getBoundingClientRect();
+    // elem.style.left = tmp.x + "px";
+    // elem.style.top = tmp.y + "px";
+    // elem.style.transitionDuration = '';
+
+    // elem.addEventListener(transitionEnd, function () {
+    //     document.getElementById(`${hue}house`).appendChild(elem);
+    //     arrangePile(tracker);
+    //     arrangePile(null, elem);
+
+    //     elem.style.position = elem.style.top = elem.style.left = "";
+
+    //     obj.out = false;
+    //     obj.pos = `${hue}house`;
+    // }, {once: true});
 }
 
 
