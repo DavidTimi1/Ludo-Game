@@ -11,34 +11,53 @@
     left: 50%;
     transform: translate(-50%,-50%);
     width: min(80%, 600px);
-    background-color:rgba(255, 255, 255, 0.8);
-    border: 1px solid white;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px black;
 }
 
-#reg-error{
-    color: red;
-    font-size: 15px;
-    font-weight: bold;
-    text-shadow: 0px 0px 3px black;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-
-input[type=text]{
-    background-color: transparent;
-    border: none;
-}
-
-button {
-    font-size: 25px;
-    letter-spacing: normal;
+.btn, .icon-btn {
+    padding: .75em 1.5em;
+    font-size: larger;
     border-radius: 1rem;
-    padding: .5rem;
-    line-height: 20px;
-    background-color: #00000022;
+    background-color: #3be5ff;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        height: 50%;
+        width: 100%;
+        border-radius: inherit;
+        border: none;
+        border-bottom: 10px solid #bbbbbb99;
+        transition: .3s;
+    }
+
+    &:hover::after {
+        border-bottom: 7px solid #77777799;
+
+    }
+}
+
+.icon-btn {
+    padding: 1em;
+    aspect-ratio: 1/1;
+    font-size: larger;
+    border-radius: 9999;
+}
+
+.xinput {
+    border-radius: 10px;
+    padding-block: 10px;
+
+    :not(:disabled){
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 80%;
+    }
 }
 
 
@@ -46,12 +65,6 @@ button {
     position: absolute;
     top: 20px;
     right: 20px;
-}
-
-.game-wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .Overlay{
@@ -95,7 +108,7 @@ li{
     text-align: center;
     margin-left: 80px;
 }
-.win-but{
+/* .win-but{
     width: 100%;
     position: absolute;
     bottom: 30px;    
@@ -103,18 +116,9 @@ li{
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-}
-.nameInput{
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: center;
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: 80%;;
-}
-.fa-robot,
+} */
+
+/* .fa-robot,
 .fa-user{
     font-size: 20px;
     font-weight: bold;
@@ -122,11 +126,11 @@ li{
     margin-bottom: auto;
     height: 100%;
     text-shadow: 0px 0px 2px black;
-}
-.fa-gear{
+} */
+/* .fa-gear{
     font-size: 20px;
     transition: transform .5s ease-in-out;
-}
+} */
 
 .settings-container{
     position: fixed;
@@ -353,17 +357,6 @@ footer p{
         stroke: grey;
     }
 }
-/* span{
-    box-shadow: 0px 0px 5px 2px #130a07;
-    width: 60px;
-    margin-right: 10px;
-    margin-left: 10px;
-    border-radius: 10px;
-    font-size: 40px;
-    font-weight: 900;
-    color: white;
-    font-family: 'Times New Roman', Times, serif;
-} */
 
 
 #centre-table{
@@ -385,52 +378,6 @@ footer p{
 
 .all-pieces{
     transition: all 0.3s ease-out ;
-}
-
-.player-turn{
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: baseline;
-}
-
-.player-id{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.player-icon{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border: 3px solid white;
-    height: 75px;
-    width: 75px;
-    border-radius: 50%;
-}
-.player-icon i{
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: auto;
-    margin-top: auto;
-    font-size: 60px;
-}
-.player-name{
-    color: white;
-    text-align: center;
-    font-size: large;
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-family: 'Times New Roman', Times, serif;
-    height: 15px;
-    width: fit-content;
 }
 
 .dice-wrapper{
@@ -493,17 +440,6 @@ footer p{
     }
     .settings-out{
         left: 0%;
-    }
-    @keyframes hide{
-        0%{
-            left: 0px;
-        }
-        20%{
-            left: 10px;
-        }
-        100%{
-            left: -105%;
-        }
     }
     #p-green-turn{
         left: 15%;
@@ -575,14 +511,6 @@ footer p{
     }
 }
 
-.hide{
-    display: none;
-}
-
 .no-trans {
     transition: none !important;
-}
-
-.invisible{
-    visibility: hidden !important;
 }

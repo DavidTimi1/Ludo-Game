@@ -40,7 +40,27 @@
     
 </head>
 
-<body class="m-0 p-0 w-screen h-screen bg-cover bg-no-repeat bg-center font-sans transition-all duration-500 ease-in-out select-none" style="background-image: url('assets/bg1.jpg');">
+<style>
+    :root, body {
+        background-color: #1e1e43;
+        color: white;
+        font-size: 18px;
+        font-weight: 500;
+        word-spacing: -1px;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+    * {
+        position: relative;
+        box-sizing: border-box;
+    }
+    
+</style>
+
+<body class="select-none">
     <button id="pause-all" class="invisible" onclick="pauseAll()">
         <i class="fa-solid fa-pause"></i>
     </button>
@@ -145,109 +165,112 @@
                     LUDO GAME
                 </h1>
 
-                <button id="play-but" type="button" onclick="overlay(1)">
+                <button class="btn" type="button" onclick="overlay(1)">
                     PLAY GAME
                 </button>
             </div>
         </div>
 
-        <!-- Second View -->
-        <!-- <div class="hide preGame _1">
+        <!-- Pick mode -->
+        <div class="hidden preGame _1">
+
+            <h2 class="m-[revert] text-2xl">
+                CHOOSE A MODE 
+            </h2>
+
             <div class="grid grid-cols-2 gap-4 w-full">
-                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
-                    <img src="assets/diceroll.gif" alt="Mode 1" class="w-16 h-16 mb-2">
-                    <span>Mode 1</span>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 aspect-square blur-2xl bg-pink-500">
                 </div>
-                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
-                    <img src="assets/diceroll.gif" alt="Mode 2" class="w-16 h-16 mb-2">
-                    <span>Mode 2</span>
-                </div>
-                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
-                    <img src="assets/diceroll.gif" alt="Mode 3" class="w-16 h-16 mb-2">
-                    <span>Mode 3</span>
-                </div>
-                <div class="play-mode p-4 border rounded-lg flex flex-col items-center">
-                    <img src="assets/diceroll.gif" alt="Mode 4" class="w-16 h-16 mb-2">
-                    <span>Mode 4</span>
-                </div>
-            </div>
-        </div> -->
-        
-        <!-- Third View -->
-        <div class="hide preGame _1">
-            <div class="flex flex-col items-center w-full gap-2">
-                <button type="button" id="4-players" onclick="playersNo(4)">
-                    <i class="fa-solid fa-user"></i>
-                    <i class="fa-solid fa-users"></i>
-                    <span> 4 PLAYERS </span>
+
+                <button data-mode="friends" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="assets/diceroll.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        PLAY WITH <br> FRIENDS
+                    </span>
                 </button>
-                <button type="button" id="3-players" onclick="playersNo(3)">
-                    <i class="fa-solid fa-users"></i>
-                    <span> 3 PLAYERS </span>
+                <button data-mode="online" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="assets/diceroll.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        PLAY <br> ONLINE
+                    </span>
                 </button>
-                <button type="button" id="2-players" onclick="playersNo(2)">
-                    <i class="fa-solid fa-user-group"></i>
-                    <span> 2 PLAYERS </span>
+                <button data-mode="pass" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="assets/diceroll.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        PASS 'N' PLAY
+                    </span>
+                </button>
+                <button data-mode="computer" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="assets/diceroll.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        COMPUTER
+                    </span>
                 </button>
             </div>
         </div>
+        
+        <!-- Third View -->
+        <form id="registration-form" class="hidden preGame _2">
+            <div class="flex flex-col items-center w-full gap-5">
+                <h2> REGISTER PLAYERS </h2>
 
-        <form class="register hide preGame _2" onsubmit="overlay(3)">
-            <div class="flex flex-col items-center w-full gap-2">
-                <h2>REGISTER PLAYERS</h2>
-                <h3 id="reg-error"></h3>
-                <label class="nameInput hide">
-                    <div class="user-icon"></div>
-                    <input type="text" id="player1" class="green" placeholder="Player 1 Name" value="" autocapitalize="characters" maxlength="15">
-                </label>
-                <label class="nameInput hide">
-                    <div class="user-icon"></div>
-                    <input type="text" id="player2" class="red" placeholder="Player 2 Name" value="BOT" autocapitalize="characters" maxlength="15">
-                </label>
-                <label class="nameInput hide">
-                    <div class="user-icon"></div>
-                    <input type="text" id="player3" class="blue" placeholder="Player 3 Name" value="BOT" autocapitalize="characters" maxlength="15">
-                </label>
-                <label class="nameInput hide">
-                    <div class="user-icon"></div>
-                    <input type="text" id="player4" class="yellow" placeholder="Player 4 Name" value="BOT" autocapitalize="characters" maxlength="15">
-                </label>
-                <button id="start">START GAME</button>
+                <h3 id="reg-error" class="p-3 w-full text-sm text-red-800 rounded-lg border border-red-800 bg-red-300" hidden></h3>
+
+                <div class="w-full flex flex-col gap-3">
+                    <label class="nameInput flex align-center justify-center gap-2 focus-within:border-yellow-600 border rounded-xl bg-slate-800">
+                        <div class="usr-icon w-7 aspect-square rounded-full"></div>
+                        <input type="text" class="xinput bg-inherit outline-none border-none" placeholder="Player 1 Name" value="" autocapitalize="characters" maxlength="15">
+                    </label>
+    
+                    <label class="nameInput flex align-center justify-center gap-2 focus-within:border-yellow-600 border rounded-xl bg-slate-800">
+                        <div class="usr-icon w-7 aspect-square rounded-full"></div>
+                        <input type="text" class="xinput bg-inherit outline-none border-none" placeholder="Player 2 Name" value="BOT" autocapitalize="characters" maxlength="15">
+                    </label>
+                </div>
+                
+
+                <button id="start" class="btn">
+                    START GAME
+                </button>
+
             </div>
         </form>
     </div>
 
-    <div class="game-wrapper invisible _3">
-        <div id="turn-div"></div>
-        <div id="p-green-turn" class="player-turn">
-            <div class="player-id">
-                <div class="player-icon green"></div>
+    <div class="flex flex-col items-center invisible _3">
+        <h2 id="turn-div" class="text-2xl">
+            <!-- current player -->
+        </h2>
+
+        <div data-colgroup="green" class="player-card flex items-center gap-4">
+            <div class="flex flex-col items-center justify-center">
+                <div class="h-16 w-16 rounded-full"></div>
                 <div class="player-name"></div>
             </div>
             <div class="dice-wrapper green">
                 <img id="die-1" onclick="callRoll()">
             </div>
         </div>
-        <div id="p-red-turn" class="player-turn invisible">
-            <div class="player-id">
-                <div class="player-icon red"></div>
+        <div data-colgroup="red" class="player-card flex items-center gap-4">
+            <div class="flex flex-col items-center justify-center">
+                <div class="player-icon"></div>
                 <div class="player-name"></div>
             </div>
-            <div class="dice-wrapper red"></div>
+            <div class="dice-wrapper"></div>
         </div>
-        <div id="p-blue-turn" class="player-turn invisible">
-            <div class="player-id">
-                <div class="player-icon blue"></div>
+        <div data-colgroup="blue" class="player-card flex items-center gap-4">
+            <div class="flex flex-col items-center justify-center">
+                <div class="player-icon"></div>
                 <div class="player-name"></div>
             </div>
-            <div class="dice-wrapper blue"></div>
+            <div class="dice-wrapper"></div>
         </div>
-        <div id="p-yellow-turn" class="player-turn invisible">
-            <div class="player-id">
-                <div class="player-icon yellow"></div>
+        <div data-colgroup="yellow" class="player-card flex items-center gap-4">
+            <div class="flex flex-col items-center justify-center">
+                <div class="player-icon"></div>
                 <div class="player-name"></div>
             </div>
-            <div class="dice-wrapper yellow"></div>
+            <div class="dice-wrapper"></div>
         </div>
 
         <table id="gameboard">
@@ -377,11 +400,11 @@
         
     </div>
 
-    <span id="store-roll" class="hide"></span>
-    <span id="store" class="hide"></span>
-    <span id="store-act" class="hide"></span>
+    <span id="store-roll" class="hidden"></span>
+    <span id="store" class="hidden"></span>
+    <span id="store-act" class="hidden"></span>
 
-    <div class="hide">
+    <div class="hidden">
         <i class="fa-solid fa-volume-xmark"></i>
         <i class="fa-solid fa-volume-low"></i>
         <span class="fa-stack fa-2x music-slash">
@@ -390,8 +413,8 @@
         </span>
     </div>
 
-    <div class="Overlay hide">
-        <div id="pause-overlay" class="hide">
+    <div class="Overlay hidden">
+        <div id="pause-overlay" class="hidden">
             <h3>Paused</h3>
             <div class="win-but">
                 <button id="resume" onclick="resume()"><i class="fa-solid fa-play"></i></button>
@@ -400,7 +423,7 @@
                 <button onclick="verify('toMainMenu()')"><i class="fa-solid fa-house"></i></button>
             </div>
         </div>
-        <div id="verify-overlay" class="hide">
+        <div id="verify-overlay" class="hidden">
             <h2>
                 This would delete your current game progress.
                 <p>
@@ -412,29 +435,31 @@
                 <button id="no" onclick="closeVert()">NO</button>
             </div>
         </div>
-        <div id="winner-overlay" class="hide">
+        <div id="winner-overlay" class="hidden">
             <h3 id="situation">
                 Game Over
             </h3>
             <ol>
-                <li id="place-1" class="rank hide"></li>
-                <li id="place-2" class="rank hide"></li>
-                <li id="place-3" class="rank hide"></li>
-                <li id="place-4" class="rank hide"></li>
+                <li id="place-1" class="rank hidden"></li>
+                <li id="place-2" class="rank hidden"></li>
+                <li id="place-3" class="rank hidden"></li>
+                <li id="place-4" class="rank hidden"></li>
             </ol>
             <ul class="fa-ul"></ul>
             <div class="win-but">
-                <button id="resume" onclick="resume()" class="paused hide"><i class="fa-solid fa-play"></i></button>
-                <button onclick="restartGame()" class="over hide"><i class="fa-solid fa-rotate"></i></button>
-                <button onclick="toMainMenu()" class="over hide"><i class="fa-solid fa-house"></i></button>
-                <button onclick="verify('restartGame()')" class="paused hide"><i class="fa-solid fa-rotate"></i></button>
-                <button onclick="verify('toMainMenu()')" class="paused hide"><i class="fa-solid fa-house"></i></button>
+                <button id="resume" onclick="resume()" class="paused hidden"><i class="fa-solid fa-play"></i></button>
+                <button onclick="restartGame()" class="over hidden"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="toMainMenu()" class="over hidden"><i class="fa-solid fa-house"></i></button>
+                <button onclick="verify('restartGame()')" class="paused hidden"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="verify('toMainMenu()')" class="paused hidden"><i class="fa-solid fa-house"></i></button>
             </div>
         </div> 
     </div>
     
 </body>
-<script src="ludo.js"></script>
+<script src="pregame.js"></script>
+<script src="audio.js"></script>
+<script src="script.js"></script>
 <script src="cells.js"></script>
 <script src="./Roll_The_Dice/roll_dice.js"></script>
 </html>

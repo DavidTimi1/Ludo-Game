@@ -16,19 +16,6 @@ let colorboard = [];
 // available colours
 let colors = [];
 
-
-
-let clickAud = document.getElementById("click-sound");
-let errorAud = document.getElementById("error-sound");
-let outAud = document.getElementById("out-sound");
-let selectAud = document.getElementById("select-sound");
-let captureAud = document.getElementById("capture-sound");
-let rollAud = document.getElementById("roll-sound");
-let safeAud = document.getElementById("safe-sound");
-let glowAud = document.getElementById("glow-sound");
-let slideAud = document.getElementById("slide-sound");
-// let pulse = document.getElementById("glow-sound");
-
 let pauseBut = document.getElementById("pause-all");
 
 // the width and height of all the playable cells
@@ -103,57 +90,21 @@ let overlay = count => {
     // when switching between overlays
     // if this is the lst overlay
     if (count != 3) {
-        clickAud.play();
-        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hide");
-        document.getElementsByClassName(`_${count}`)[0].classList.remove("hide");
+        playClick();
+        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
+        document.getElementsByClassName(`_${count}`)[0].classList.remove("hidden");
 
         if (count != 2) dispatchEvent(new Event('close reg'))
 
     } else {
-        let ev = event;
-        ev.preventDefault();
-        dispatchEvent(new Event('close reg'));
-
-        let form = ev.target;
-
-        let validInputs = form.querySelectorAll("input.valid"), len = validInputs.length;
-        let usedNames = [];
-        let allBots = true;
-
-        // ensure al player names are validly filled
-        for (let j = 0; j < len; j++) {
-            let inp = validInputs[j].value;
-
-            // if there are player name errors don't show gameboard
-            if (!inp || inp == "BOT") {
-                if (j == len - 1 && allBots) {
-                    document.getElementById("reg-error").innerText = "There must be at least 1 User Player";
-                    errorAud.play();
-                    return;
-                }
-
-            } else {
-                if (usedNames.includes(inp)) {
-                    document.getElementById("reg-error").innerText = "Two players cannot have same name";
-                    errorAud.play();
-                    return;
-                }
-                allBots = false;
-                usedNames.push(inp);
-            }
-            clickAud.play();
-        }
-
+        N_O_P = getPlayers().length;
 
         makePieces();
 
         // show the gameboard
-        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hide");
+        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
         document.getElementsByClassName(`_${count}`)[0].classList.remove("invisible");
-        document.getElementById("preGame-overlay").classList.add("hide");
-        let validTD = document.getElementsByClassName("player-turn valid");
-
-        let index = 0;
+        document.getElementById("preGame-overlay").classList.add("hidden");
 
         for (let input of validInputs) {
             players[index] = validTD[index].children[0].childNodes[3].innerHTML = input.value;
@@ -179,40 +130,6 @@ let turnDivs = document.getElementsByClassName("player-turn");
 
 
 let playersNo = n => {
-    clickAud.play();
-    // set the number if players chosen
-    N_O_P = n;
-    players = Array(N_O_P);
-
-    // open the registration centre
-    overlay(2);
-    if (n == 4)
-        document.getElementsByClassName("register")[0].style.height = "50%";
-
-    for (let i = 0; i < n; i++) {
-        let color = inputs[i].classList[0];
-        // open name fields for the number of chosen players
-        inputWrap(inputs[i]).classList.remove("hide");
-        turnDivs[i].classList.add("valid");
-        colors.push(color);
-
-        // if only two players
-        if (n == 2 && i == 1) {
-            // make the blue side the second player
-            inputWrap(inputs[i]).classList.add("hide");
-            inputs[i + 1].placeholder = "Player 2 Name";
-            inputWrap(inputs[i + 1]).classList.remove("hide");
-            iconSpaces[i + 1].classList.add("valid");
-
-            turnDivs[i].classList.remove("valid");
-            turnDivs[i + 1].classList.add("valid");
-
-            colors.pop();
-            colors.push("blue");
-
-        } else
-            iconSpaces[i].classList.add("valid");
-    }
 
     // when registration is ongoing
     for (let i = 0; i < inputs.length; i++) {
@@ -221,7 +138,7 @@ let playersNo = n => {
         let color = inp.classList[0];
 
         // for number of selected players
-        if (!inputWrap(inp).classList.contains("hide")) {
+        if (!inputWrap(inp).classList.contains("hidden")) {
             inp.classList.add("valid");
 
             inp.onfocus = ev => {
@@ -329,7 +246,7 @@ let playables = (roll, color) => {
             document.getElementById(`${seed.id}`).addEventListener('click', function e() {
                 // if it is side's turn
                 if (seed.id.includes(activeColor) && !halt) {
-                    selectAud.play();
+                    playSelect();
                     play(eval(document.getElementById("store-roll").innerHTML), seed);
                 }
             });
@@ -728,7 +645,7 @@ function goBack(obj) {
     const {pos, id, color} = obj;
     let orignElem = document.getElementById(pos), pieceElem = document.getElementById(id);
     
-    captureAud.play();
+    playCapture();
     translateTo(Cell(orignElem).getPrev(color));
 
 
@@ -756,7 +673,7 @@ function goBack(obj) {
 
     // elem.classList.remove("no-trans");
 
-    // captureAud.play();
+    // playCapture();
 
     // let tmp = document.getElementById(`${hue}span`).getBoundingClientRect();
     // elem.style.left = tmp.x + "px";
@@ -827,7 +744,7 @@ let clearAll = () => {
             document.getElementById(`${color}house`).append(p);
             group[i].pos = color + "house";
 
-            turnDivs[i].classList.add("hide");
+            turnDivs[i].classList.add("hidden");
         }
     }
     document.getElementById("store").innerHTML = document.getElementById("store-roll").innerHTML = "";
@@ -846,7 +763,7 @@ let toMainMenu = () => {
 
         let wrap = inputWrap(inp);
         wrap.classList.remove("valid");
-        wrap.classList.add("hide");
+        wrap.classList.add("hidden");
     });
 
     for (let iconSpace of iconSpaces)
@@ -855,17 +772,17 @@ let toMainMenu = () => {
     colors = [];
     can = true;
     document.getElementsByClassName("game-wrapper")[0].classList.add("invisible");
-    document.getElementById("preGame-overlay").classList.remove("hide");
-    document.getElementsByClassName("_0")[0].classList.remove("hide");
+    document.getElementById("preGame-overlay").classList.remove("hidden");
+    document.getElementsByClassName("_0")[0].classList.remove("hidden");
 }
 
 
 let pauseAll = () => {
-    clickAud.play();
+    playClick();
     pause = true;
     pauseBut.classList.add("invisible");
-    document.getElementsByClassName("Overlay")[0].classList.remove("hide");
-    document.getElementById("pause-overlay").classList.remove("hide");
+    document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
+    document.getElementById("pause-overlay").classList.remove("hidden");
 }
 
 let restartGame = () => {
@@ -878,13 +795,13 @@ let restartGame = () => {
 }
 
 let verify = func => {
-    clickAud.play();
+    playClick();
     pause = true;
     pauseBut.classList.add("invisible");
-    document.getElementById("pause-overlay").classList.add("hide");
+    document.getElementById("pause-overlay").classList.add("hidden");
     document.getElementById("store-act").innerHTML = func;
-    document.getElementsByClassName("Overlay")[0].classList.remove("hide");
-    document.getElementById("verify-overlay").classList.remove("hide");
+    document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
+    document.getElementById("verify-overlay").classList.remove("hidden");
 }
 
 let winner = color => {
@@ -904,7 +821,7 @@ let winner = color => {
     unranked.innerHTML = "";
 
     let options = overlay.getElementsByTagName("button");
-    for (let option of options) option.classList.add("hide");
+    for (let option of options) option.classList.add("hidden");
 
     let overOptions = overlay.querySelectorAll("button.over");
     let pausedOptions = overlay.querySelectorAll("button.paused");
@@ -913,7 +830,7 @@ let winner = color => {
     // if there is only one other person not on the leaderboard, he is last
     if (colors.length - leaderboard.length == 1) {
         overOptions.forEach(option => {
-            option.classList.remove("hide");
+            option.classList.remove("hidden");
         });
         head.innerText = "Game Over"
 
@@ -929,7 +846,7 @@ let winner = color => {
 
     } else {
         pausedOptions.forEach(option => {
-            option.classList.remove("hide");
+            option.classList.remove("hidden");
         });
         head.innerText = "Paused";
 
@@ -950,26 +867,26 @@ let winner = color => {
     for (let i = 0; i < leaderboard.length; i++) {
         ranks[i].innerText = leaderboard[i];
         ranks[i].style.color = colorboard[i];
-        ranks[i].classList.remove("hide");
+        ranks[i].classList.remove("hidden");
     }
 
-    document.getElementsByClassName("Overlay").classList.remove("hide");
-    document.getElementById("winner-overlay").classList.remove("hide");
+    document.getElementsByClassName("Overlay").classList.remove("hidden");
+    document.getElementById("winner-overlay").classList.remove("hidden");
 }
 
 
 let vertAction = () => {
-    clickAud.play();
+    playClick();
     pause = false;
-    document.getElementsByClassName("Overlay").classList.add("hide");
-    document.getElementById("verify-overlay").classList.add("hide");
+    document.getElementsByClassName("Overlay").classList.add("hidden");
+    document.getElementById("verify-overlay").classList.add("hidden");
     let action = document.getElementById("store-act").innerHTML;
     eval(action);
 }
 
 
 let closeVert = () => {
-    clickAud.play();
+    playClick();
     document.getElementById("store-act").innerHTML = "";
     closeOverlays();
 
@@ -981,7 +898,7 @@ let closeVert = () => {
 
 
 let resume = () => {
-    clickAud.play();
+    playClick();
     closeOverlays();
     pause = false;
     pauseBut.classList.remove("invisible");
@@ -993,6 +910,6 @@ let resume = () => {
 
 function closeOverlays() {
     ["#winner-overlay", "#pause-overlay", "#verify-overlay", ".Overlay"]
-        .forEach(str => document.querySelector(str).classList.add("hide"))
+        .forEach(str => document.querySelector(str).classList.add("hidden"))
 }
 
