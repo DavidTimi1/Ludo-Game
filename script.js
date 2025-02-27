@@ -16,7 +16,7 @@ let colorboard = [];
 // available colours
 let colors = [];
 
-let pauseBut = document.getElementById("pause-all");
+const pauseBtn = document.getElementById("pause-all");
 
 // the width and height of all the playable cells
 let width = document.querySelector("#cell1").getBoundingClientRect().width - 5;
@@ -83,7 +83,7 @@ let activeColor;
 let activePlayer;
 
 
-let N_O_P, AUTO = true, players;
+let N_O_P, AUTO = true;
 
 
 let overlay = count => {
@@ -97,7 +97,9 @@ let overlay = count => {
         if (count != 2) dispatchEvent(new Event('close reg'))
 
     } else {
-        N_O_P = getPlayers().length;
+        // show players cards
+        const players = getPlayers();
+        N_O_P = players.length;
 
         makePieces();
 
@@ -106,17 +108,20 @@ let overlay = count => {
         document.getElementsByClassName(`_${count}`)[0].classList.remove("invisible");
         document.getElementById("preGame-overlay").classList.add("hidden");
 
-        for (let input of validInputs) {
-            players[index] = validTD[index].children[0].childNodes[3].innerHTML = input.value;
 
-            validTD[index].children[0].children[0] = input.value == "BOT" ? robotIcon : playerIcon;
-
-            index++;
+        for (let p of players){
+            const {name, color, icon} = p;
+            const card = document.querySelector(`.player-card[data-colgroup="${color}"]`);
+            
+            card.getElementsByClassName("p-name")[0].innerHTML = name;
+            card.getElementsByClassName("p-icon")[0].innerHTML = icon;
         }
 
-        pauseBut.classList.remove("invisible");
-        rollDice();
+        pauseBtn.classList.remove("invisible");
+        colors = players.map( p => p.color);        
     }
+
+    updateTurn();
 
 }
 
@@ -169,12 +174,8 @@ let turnDiv;
 
 // to update the turn count
 function updateTurn() {
-    turn++
-    if (turn != 0) {
-        // close the ast player's turn
-        let oldColor = activeColor;
-        document.getElementById(`p-${oldColor}-turn`).classList.add("invisible");
-    }
+    turn++;
+    
     turn = turn % N_O_P;
 
     while (donePieces(colors[turn]).length == 4)
@@ -780,7 +781,7 @@ let toMainMenu = () => {
 let pauseAll = () => {
     playClick();
     pause = true;
-    pauseBut.classList.add("invisible");
+    pauseBtn.classList.add("invisible");
     document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
     document.getElementById("pause-overlay").classList.remove("hidden");
 }
@@ -789,7 +790,7 @@ let restartGame = () => {
     turn = -1;
     clearAll();
     closeOverlays();
-    pauseBut.classList.remove("invisible");
+    pauseBtn.classList.remove("invisible");
     can = true;
     rollDice();
 }
@@ -797,7 +798,7 @@ let restartGame = () => {
 let verify = func => {
     playClick();
     pause = true;
-    pauseBut.classList.add("invisible");
+    pauseBtn.classList.add("invisible");
     document.getElementById("pause-overlay").classList.add("hidden");
     document.getElementById("store-act").innerHTML = func;
     document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
@@ -808,7 +809,7 @@ let winner = color => {
     // when someone completes his pieces
     let overlay = document.getElementById("winner-overlay");
     pause = true;
-    pauseBut.classList.add("invisible");
+    pauseBtn.classList.add("invisible");
 
     // add to the leaderboard
     colorboard.push(color);
@@ -891,7 +892,7 @@ let closeVert = () => {
     closeOverlays();
 
     pause = false;
-    pauseBut.classList.remove("invisible");
+    pauseBtn.classList.remove("invisible");
     if (bot)
         setTimeout(rollDice, 500);
 }
@@ -901,7 +902,7 @@ let resume = () => {
     playClick();
     closeOverlays();
     pause = false;
-    pauseBut.classList.remove("invisible");
+    pauseBtn.classList.remove("invisible");
 
     if (bot)
         setTimeout(rollDice, 500);
