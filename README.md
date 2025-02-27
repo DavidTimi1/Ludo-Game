@@ -12,7 +12,7 @@ Web-based implementation of the classic board game Ludo, developed using HTML, C
 ## Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/Ludo-Game.git
+    git clone https://github.com/DavidTimi1/Ludo-Game.git
     ```
 2. Navigate to the project directory:
     ```bash
@@ -32,7 +32,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 This project is licensed under the MIT License.
 
 ## Contact
-For any inquiries, please contact [your email](mailto:duwagbale07@gmail.com).
+For any inquiries, please contact [Me](mailto:duwagbale07@gmail.com).
 
 ## Support
 If you like this project, please give it a ⭐ on [GitHub](https://github.com/DavidTimi1/Ludo-Game).
