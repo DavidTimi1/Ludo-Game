@@ -5,9 +5,9 @@
   "main": "ludo.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "postcss ludo.css -o output.css",
-    "watch:css": "postcss ludo.css -o output.css --watch",
-    "deploy": "gh-pages -d ."
+    "build:css": "postcss styles.css -o output.css",
+    "watch:css": "postcss styles.css -o output.css --watch",
+    "deploy": "gh-pages -d ./"
   },
   "repository": {
     "type": "git",
