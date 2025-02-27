@@ -45,7 +45,6 @@
     font-size: larger;
     border-radius: 9999;
 }
-
 .xinput {
     border-radius: 10px;
     padding-block: 10px;
@@ -380,18 +379,6 @@ footer p{
     transition: all 0.3s ease-out ;
 }
 
-.dice-wrapper{
-    position: relative;
-    width: 50px;
-    height: 50px;
-    border: 3px solid white;
-    border-radius: 20%;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    text-align: center;
-}
 #die-1{
     width: 90%;
     height: 90%;
@@ -441,22 +428,22 @@ footer p{
     .settings-out{
         left: 0%;
     }
-    #p-green-turn{
+    .player-card[data-colgroup="green"]{
         left: 15%;
         top: 1%;
         flex-direction: row;
     }
-    #p-red-turn{
+    .player-card[data-colgroup="red"]{
         right: 15%;
         top: 1%;
         flex-direction: row-reverse;
     }
-    #p-blue-turn{
+    .player-card[data-colgroup="blue"]{
         right: 15%;
         bottom: 1%;
         flex-direction: row-reverse;
     }
-    #p-yellow-turn{
+    .player-card[data-colgroup="yellow"]{
         left: 15%;
         bottom: 1%;
         flex-direction: row;
@@ -489,22 +476,22 @@ footer p{
         background-repeat: no-repeat;
     }
     
-    #p-green-turn{
+    .player-card[data-colgroup="green"]{
         left: 15%;
         top: 15%;
         flex-direction: column;
     }
-    #p-red-turn{
+    .player-card[data-colgroup="red"]{
         right: 15%;
         top: 15%;
         flex-direction: column;
     }
-    #p-blue-turn{
+    .player-card[data-colgroup="blue"]{
         right: 15%;
         top: 75%;
         flex-direction: column-reverse;
     }
-    #p-yellow-turn{
+    .player-card[data-colgroup="yellow"]{
         left: 15%;
         top: 75%;
         flex-direction: column-reverse;
