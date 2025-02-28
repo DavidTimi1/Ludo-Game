@@ -101,14 +101,6 @@ let overlay = count => {
         const players = getPlayers();
         N_O_P = players.length;
 
-        makePieces();
-
-        // show the gameboard
-        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
-        document.getElementsByClassName(`_${count}`)[0].classList.remove("invisible");
-        document.getElementById("preGame-overlay").classList.add("hidden");
-
-
         for (let p of players){
             const {name, color, icon} = p;
             const card = document.querySelector(`.player-card[data-colgroup="${color}"]`);
@@ -118,10 +110,18 @@ let overlay = count => {
         }
 
         pauseBtn.classList.remove("invisible");
-        colors = players.map( p => p.color);        
-    }
+        colors = players.map( p => p.color);
+        makePieces();
 
-    updateTurn();
+        // show the gameboard
+        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
+        document.getElementsByClassName(`_${count}`)[0].classList.remove("invisible");
+        document.getElementById("preGame-overlay").classList.add("hidden");
+   
+        initDice()
+        updateTurn();
+        
+    }
 
 }
 
@@ -131,7 +131,6 @@ let inputWrap = elem => elem.closest("label");
 let robotIcon = `<i class="fa-solid fa-robot"></i>`;
 let playerIcon = `<i class="fa-solid fa-user"></i>`
 let iconSpaces = document.getElementsByClassName("user-icon");
-let turnDivs = document.getElementsByClassName("player-turn");
 
 
 let playersNo = n => {
@@ -170,30 +169,30 @@ let playersNo = n => {
 
 let bot = false;
 
-let turnDiv;
-
 // to update the turn count
 function updateTurn() {
-    turn++;
-    
-    turn = turn % N_O_P;
+    const players = getPlayers();
 
-    while (donePieces(colors[turn]).length == 4)
+    do {
         turn = (turn + 1) % N_O_P;
 
-    activePlayer = players[turn];
-    activeColor = colors[turn];
+    } while ( donePieces(players[turn].color).length == 4);
 
-    turnDiv = document.getElementById(`p-${activeColor}-turn`);
+    activePlayer = players[turn];
+    activeColor = activePlayer.color;
+
+    const turnBanner = document.getElementById(`turn-div`);
+    turnBanner.innerHTML = `${activePlayer.name}'s turn`;
+    turnBanner.style.color = activeColor;
 
     // open the next players turn
-    document.getElementsByClassName(`dice-wrapper ${activeColor}`)[0].appendChild(document.getElementById("die-1"));
-    turnDiv.classList.remove("invisible");
+    document.querySelector(`.player-card[data-colgroup="${activeColor}"] .dice-wrapper`).appendChild(die);
 
     setTimeout(function () {
-        if (turnDiv.innerText == "BOT") {
+        if (activePlayer.name === "BOT") {
             bot = can = true;
             rollDice();
+            
         } else {
             can = true;
             bot = false;
@@ -444,7 +443,7 @@ let play = (roll, piece) => {
         let moved = false;
         
         // visually move the piece
-        move(pieceElem, color, cont, destElem)
+        move(pieceElem, side, cont, destElem)
 
         addEventListener('transitionsEnded', pluto, { once: true })
         // failsafe

@@ -1,4 +1,4 @@
-let images = ["dice-01.svg","dice-02.svg","dice-03.svg","dice-04.svg","dice-05.svg","dice-06.svg"];
+let dieImages = ["dice-01.svg", "dice-02.svg", "dice-03.svg", "dice-04.svg", "dice-05.svg", "dice-06.svg"];
 let die = document.getElementById("die-1");
 
 let pause = false;
@@ -6,7 +6,7 @@ let dieRoll = null;
 let can = true;
 
 
-function getTransitionEndEventName(){
+function getTransitionEndEventName() {
     let transitions = {
         transition: "transitionend",
         OTransition: "oTransitionEnd",
@@ -22,67 +22,61 @@ function getTransitionEndEventName(){
 const transitionEnd = getTransitionEndEventName();
 
 
-die.onclick = callRoll;
 
-function rollDice(){
-    if (can && !pause){
+function initDice() {
+    die.onclick = callRoll;
+
+    const randomVal = Math.floor(Math.random() * 6);
+
+    die.setAttribute("src", `./Roll_The_Dice/${dieImages[randomVal]}`);
+}
+
+function rollDice() {
+    if (can && !pause && turn >= 0) {
+
         can = false;
         die.classList.add("spin");
 
-        if (turn >= 0){
-            rollAud.play();
+        rollAud.play();
 
-            for (let count = 0; count < 3; count++){
-                setTimeout(function(){
-                    let rolling = Math.floor( Math.random()*7 );
-                    if (rolling == 6) rolling = 5;
+        setTimeout( f = function (iter = 0) {
+            let rolling = Math.floor(Math.random() * 6);
+            
+            die.setAttribute("src", `./Roll_The_Dice/${dieImages[rolling]}`);
 
-                    die.setAttribute("src", `./Roll_The_Dice/${images[rolling]}`);
-                }, 300);
-            }
-        } else {
-            let rolling = Math.floor( Math.random()*7 );
-            if (rolling == 6) rolling = 5;
+            if (iter < 4) {
+                setTimeout(f, 100, iter + 1);
 
-            die.setAttribute("src", `./Roll_The_Dice/${images[rolling]}`);
-        }
-
-        setTimeout(function(){
-            die.classList.remove("spin");
-            if (turn >= 0)
-            {
-                let dieValue = Math.floor(Math.random() * (outPieces(activeColor).length? 9 : 7));
-    
-                if (dieValue > 5) dieValue = 5;
-    
-                dieRoll = dieValue + 1;
-                document.getElementById("store-roll").innerHTML = dieRoll;
-                die.setAttribute("src", `./Roll_The_Dice/${images[dieValue]}`);
-                halt = false;
-
-                if (
-                    (dieRoll < 6 && !outPieces(activeColor).length)
-                    || (dieRoll == 6 && document.getElementById("store").innerHTML == 2)
-                ){
-                    document.getElementById("store").innerHTML = "";
-                    setTimeout(updateTurn, 500);
-
-                } else {
-                    if (dieRoll != 6) document.getElementById("store").innerHTML = "";
-
-                    playables(dieRoll, activeColor);
-                    
-                }
             } else {
-                setTimeout(updateTurn, 500);
+                die.classList.remove("spin");
+                dieRoll = rolling + 1;
+                document.getElementById("store-roll").innerHTML = dieRoll;
+                useRolled(dieRoll);
+                halt = false;
             }
-        }, 1000);
+        }, 300);
+    }
+}
+
+function useRolled(value){
+    if (
+        (value < 6 && !outPieces(activeColor).length)
+        || (value == 6 && document.getElementById("store").innerHTML == 2)
+    ) {
+        document.getElementById("store").innerHTML = "";
+        setTimeout(updateTurn, 500);
+
+    } else {
+        if (value != 6) document.getElementById("store").innerHTML = "";
+
+        playables(value, activeColor);
+
     }
 }
 
 
-function callRoll(){
-    if(!bot){
+function callRoll() {
+    if (!bot) {
         rollDice();
     }
 }
