@@ -319,6 +319,10 @@ footer p{
         rgba(0, 0, 255, 0.8),
         rgba(0, 0, 255, 0) 60%
     );
+
+    .centre-table {
+        width: 100%;
+    }
 }
 .spin{
     animation: spin 1.1s infinite;
@@ -343,40 +347,37 @@ footer p{
     text-align: center;
 }
 .glow{
-    animation: glow 0.5s infinite;
+    animation: glow 0.5s alternate-reverse infinite;
 }
+
 @keyframes glow{
     0%{
-        stroke: grey;
-    }
-    50%{
-        stroke: #fff;
+        background-color: #999;
     }
     100%{
-        stroke: grey;
+        background-color: goldenrod;
     }
 }
 
 
-#centre-table{
+.centre-table{
     background-color: transparent;
-    width: 100%;
-    height: 100%;
 }
 
-#centre-table tr{
+.centre-table tr{
     display: flex;
     justify-content: center;
-    height: 33%;
-    width: 100%;
 }
 
-#centre-table td{
-    border: none;
+.centre-table td{
+    border: none !important;
 }
 
 .all-pieces{
-    transition: all 0.3s ease-out ;
+    background-color: #999;
+    transition: 0.25s;
+    width: 80%;
+    padding: 3px;
 }
 
 #die-1{
@@ -388,34 +389,36 @@ footer p{
     margin-top: auto;
 }
 
+#gameboard{
+    position: relative;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #eee;
+    border-radius: 5rem;
+}
+
+td:not([colspan]){
+    border: 1px solid black;
+    padding: 1px;
+    text-align: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+td:not([colspan]){
+    border-radius: 9999px;
+}
 
 @media screen and (max-width: 600px){
     #gameboard{
-        position: relative;
         height: 90vw;
         width: 90vw;
-        margin-top: 20%;
-        margin-bottom: 20%;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #eee;
-        border-radius: 5px;
     }
     
     td{
         height: 6.5vw;
         width: 6.5vw;
-        border: 1px solid black;
-        border-radius: 5px;
-        padding: 0px;
-        margin-top: 0.2px;
-        margin-left: 0.2px;
-        margin-bottom: 0.2px;
-        margin-right: 0.2px;
-        text-align: center;
-        background-size: contain;
-        background-repeat: no-repeat;
     }
     
     .settings-wrapper{
@@ -429,23 +432,23 @@ footer p{
         left: 0%;
     }
     .player-card[data-colgroup="green"]{
-        left: 15%;
-        top: 1%;
+        right: 60%;
+        bottom: calc(100% + 20px);
         flex-direction: row;
     }
     .player-card[data-colgroup="red"]{
-        right: 15%;
-        top: 1%;
+        left: 60%;
+        bottom: calc(100% + 20px);
         flex-direction: row-reverse;
     }
     .player-card[data-colgroup="blue"]{
-        right: 15%;
-        bottom: 1%;
+        left: 60%;
+        top: calc(100% + 20px);
         flex-direction: row-reverse;
     }
     .player-card[data-colgroup="yellow"]{
-        left: 15%;
-        bottom: 1%;
+        right: 60%;
+        top: calc(100% + 20px);
         flex-direction: row;
     }    
 }
@@ -453,47 +456,31 @@ footer p{
     #gameboard{
         height: 90vh;
         width: 90vh;
-        text-align: center;
-        margin-top: 0px;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #eee;
-        border-radius: 5px;
     }
     
     td{
         height: 6.2vh;
         width: 6.2vh;
-        border: 1px solid black;
-        border-radius: 5px;
-        padding: 0px;
-        margin-top: 0.2px;
-        margin-left: 0.2px;
-        margin-bottom: 0.2px;
-        margin-right: 0.2px;
-        text-align: center;
-        background-size: contain;
-        background-repeat: no-repeat;
     }
     
     .player-card[data-colgroup="green"]{
-        left: 15%;
-        top: 15%;
+        right: calc(100% + 35px);
+        bottom: 70%;
         flex-direction: column;
     }
     .player-card[data-colgroup="red"]{
-        right: 15%;
-        top: 15%;
+        left: calc(100% + 35px);
+        bottom: 70%;
         flex-direction: column;
     }
     .player-card[data-colgroup="blue"]{
-        right: 15%;
-        top: 75%;
+        right: calc(100% + 35px);
+        top: 70%;
         flex-direction: column-reverse;
     }
     .player-card[data-colgroup="yellow"]{
-        left: 15%;
-        top: 75%;
+        left: calc(100% + 35px);
+        top: 70%;
         flex-direction: column-reverse;
     }
 }

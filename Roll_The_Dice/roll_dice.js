@@ -1,9 +1,11 @@
-let dieImages = ["dice-01.svg", "dice-02.svg", "dice-03.svg", "dice-04.svg", "dice-05.svg", "dice-06.svg"];
-let die = document.getElementById("die-1");
+const dieImages = ["dice-01.svg", "dice-02.svg", "dice-03.svg", "dice-04.svg", "dice-05.svg", "dice-06.svg"];
+const die = document.getElementById("die-1");
 
 let pause = false;
 let dieRoll = null;
-let can = true;
+let canRoll = true;
+
+let timesPlayedSix = 0;
 
 
 function getTransitionEndEventName() {
@@ -32,9 +34,9 @@ function initDice() {
 }
 
 function rollDice() {
-    if (can && !pause && turn >= 0) {
+    if (canRoll && !pause && turn >= 0) {
 
-        can = false;
+        canRoll = false;
         die.classList.add("spin");
 
         rollAud.play();
@@ -50,27 +52,25 @@ function rollDice() {
             } else {
                 die.classList.remove("spin");
                 dieRoll = rolling + 1;
-                document.getElementById("store-roll").innerHTML = dieRoll;
                 useRolled(dieRoll);
-                halt = false;
             }
         }, 300);
     }
 }
 
 function useRolled(value){
+    canRoll = false;
     if (
         (value < 6 && !outPieces(activeColor).length)
-        || (value == 6 && document.getElementById("store").innerHTML == 2)
+        || (value == 6 && timesPlayedSix == 2)
     ) {
-        document.getElementById("store").innerHTML = "";
+        timesPlayedSix = 0;
         setTimeout(updateTurn, 500);
 
     } else {
-        if (value != 6) document.getElementById("store").innerHTML = "";
+        timesPlayedSix = (value == 6) ? timesPlayedSix + 1 : 0;
 
         playables(value, activeColor);
-
     }
 }
 

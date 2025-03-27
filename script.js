@@ -19,7 +19,7 @@ let colors = [];
 const pauseBtn = document.getElementById("pause-all");
 
 // the width and height of all the playable cells
-let width = document.querySelector("#cell1").getBoundingClientRect().width - 5;
+let width = document.querySelector("#cell1").getBoundingClientRect().width;
 
 // list of all the pieces
 let allPieces = [];
@@ -56,14 +56,18 @@ let makePieces = () => {
             p.id = color + "p" + j;
 
             // the visual representation of each piece
-            let imgStr = `<svg id=${p.id} class="all-pieces ${color}pieces" height=${width} width=${width}>
-                <circle style= 'cx: ${width / 2}px; cy: ${width / 2}px; r: ${width / 2 - 5}px; stroke: grey; stroke-width: 3px; fill: ${p.color};'/>
-            </svg>`;
+            // let imgStr = `<svg id=${p.id} class="all-pieces ${color}pieces z-10" height=${width} width=${width}>
+            //     <circle style= 'cx: ${width / 2}px; cy: ${width / 2}px; r: ${width / 2 - 5}px; stroke: grey; stroke-width: 3px; fill: ${p.color};'/>
+            // </svg>`;
+            let imgStr = `<div id=${p.id} class="all-pieces ${color}pieces z-10 aspect-square rounded-full">
+                <div class="aspect-square rounded-full w-full h-full" style="background-color:${p.color};">
+                </div>
+            </div>`;
 
             let pseudo = document.createElement("div"); pseudo.innerHTML = imgStr;
 
             // put all pieces in their houses
-            document.getElementById(`${color}house`).appendChild(pseudo.firstElementChild);
+            document.getElementById(`${color}house${j}`).appendChild(pseudo.firstElementChild);
         }
     }
 
@@ -83,7 +87,7 @@ let activeColor;
 let activePlayer;
 
 
-let N_O_P, AUTO = true;
+let N_O_P, AUTO = false;
 
 
 let overlay = count => {
@@ -190,107 +194,109 @@ function updateTurn() {
 
     setTimeout(function () {
         if (activePlayer.name === "BOT") {
-            bot = can = true;
+            bot = canRoll = true;
             rollDice();
             
         } else {
-            can = true;
+            canRoll = true;
             bot = false;
         }
     }, 1500);
 }
 
 
-
-let halt = false;
+let canPlay = false;
 
 // check whether the selected piece can be played
 let playables = (roll, color) => {
-    let colP = getGroup(color), canPlay = [];
-    halt = false;
+    let colP = getGroup(color), canBePlayed = [];
+    canPlay = true;
 
-    let done = bot = false;
+    // if computer is to play
+    const isBot = activePlayer.name == "BOT";
+
+    let done = false, e;
 
     // iterate through all the pieces in the colour group
     for (let seed of colP) {
         // let seedId = colP[g].id;
         // let seedLoc = colP[g].pos;
-
-        let seedElem = document.getElementById(`${seed.id}`).children[0];
-        let glow = false;
+        let playable = false;
 
         if (seed.pos == color + "house" && !seed.out) {
             if (roll == 6) {
                 // if the piece is in the colour house and  six was rolled
-                glow = true;
-                canPlay.push(seed);
+                playable = true;
+                canBePlayed.push(seed);
             }
+
         } else if (!seed.pos.includes("finish") || !seed.done) {
             if (!seed.pos.includes("Spec")) {
-                glow = true;
-                canPlay.push(seed);
+                playable = true;
+                canBePlayed.push(seed);
+
             } else {
                 let x = eval(seed.pos.split(color)[1]);
                 let y = x + roll;
                 if (y <= 6) {
-                    glow = true;
-                    canPlay.push(seed);
+                    playable = true;
+                    canBePlayed.push(seed);
                 }
             }
         }
 
-        if (glow) {
-            seedElem.classList.add("glow");
-
-            // document.getElementById("store").innerHTML = this;
-            document.getElementById(`${seed.id}`).addEventListener('click', function e() {
-                // if it is side's turn
-                if (seed.id.includes(activeColor) && !halt) {
-                    playSelect();
-                    play(eval(document.getElementById("store-roll").innerHTML), seed);
-                }
-            });
+        if (playable){
+            document.getElementById(seed.id).classList.add("glow");
         }
     }
 
-    if (canPlay.length) {
-        // if computer is to play
-        if (activePlayer == "BOT") bot = true;
+    if (canBePlayed.length) {
 
         // if a user is to play and auto play is off
-        if (!bot && !AUTO)
+        if (!isBot && !AUTO){
             glowAud.play();
 
-        else if (!halt) {
-            if (canPlay.length == 1) {
-                play(eval(document.getElementById("store-roll").innerHTML), canPlay[0]);
+            canBePlayed.forEach( seed => {
+                const seedElem = document.getElementById(seed.id);
+    
+                seedElem.addEventListener('click', e = () => {
+                    // if it is side's turn
+                    if (seed.id.includes(activeColor) && canPlay) {
+                        playSelect();
+                        play(roll, seed);
+                        
+                        canBePlayed.map( a => document.getElementById(`${a.id}`)).forEach(b => removeEventListener('click', b))
+                    }
+                }, {once: true})
+        })
+
+        } else {
+            if (canBePlayed.length === 1) {
+                play(roll, canBePlayed[0]);
                 done = true;
 
             } else {
                 // checking for duplicacy of positions
-                for (let p = 1; p < canPlay.length; p++) {
-                    let any = canPlay[p], standard = canPlay[0];
+                for (let p = 1; p < canBePlayed.length; p++) {
+                    let any = canBePlayed[p], standard = canBePlayed[0];
 
                     if (any.pos == standard.pos) {
-                        if (p != canPlay.length - 1)
+                        if (p != canBePlayed.length - 1)
                             continue;
 
-                        play(eval(document.getElementById("store-roll").innerHTML), standard);
+                        play(roll, standard);
                         done = true;
                     } else break;
-                }
-                if (!done && !bot) {
-                    glowAud.play();
                 }
             }
 
             // analyse computer's play
-            if (bot && !done) {
+            if (isBot && !done) {
                 let playZone = [];
-                let rolled = eval(document.getElementById("store-roll").innerHTML);
+                let rolled = roll;
 
-                for (let q = 0; q < canPlay.length; q++) {
-                    let seed = canPlay[q];
+                for (let q = 0; q < canBePlayed.length; q++) {
+                    let seed = canBePlayed[q];
 
                     // house
                     // capture
@@ -340,80 +346,72 @@ let playables = (roll, color) => {
                 } else {
                     index = playZone.lastIndexOf("safe");
                 }
-                play(rolled, canPlay[index]);
+
+                play(roll, canBePlayed[index]);
+
             }
 
         }
     } else {
-        setTimeout(updateTurn, 1000);
+        setTimeout(updateTurn, 500);
     }
+
 }
 
 
 let selected = null;
-let repeat = false;
 
 let play = (roll, piece) => {
     let ID = piece.id;
     let gps = piece.pos;
     let side = piece.color;
+    let repeat = roll === 6;
     
     let groupHome = document.querySelector(`#cell${initCell[side]}`);
 
     let pieceElem = document.getElementById(`${ID}`);
-    let lastMove, dest, destElem;
+    let dest, destElem;
 
     // iterate through all the pieces in the colour group
     if (roll < 6 && !piece.out)
         return;
 
-    if (roll == 6) repeat = true;
-
-    if (gps == `${side}house`) {
+    if (gps == `${side}house` && repeat) {
         piece.out = true;
-        pieceElem.classList.add("no-trans");
-
-        pieceElem.style.position = "absolute";
-        pieceElem.style.top = pieceElem.getBoundingClientRect().y + "px";
-        pieceElem.style.left = pieceElem.getBoundingClientRect().x + "px";
-
-        pieceElem.classList.remove("no-trans");
-
-        pieceElem.style.left = groupHome.getBoundingClientRect().x + "px";
-        pieceElem.style.top = groupHome.getBoundingClientRect().y + "px";
-
-        safeAud.play();
-
+        const startPos = pieceElem.getBoundingClientRect();
+        const endPos = groupHome.getBoundingClientRect();
+        
         let done = false;
 
-        addEventListener('transitionsEnded', pluto, { once: true })
-        // failsafe
-        setTimeout(pluto, 500);
-
-        function pluto() {
+        const pluto =() => {
             if (done) return
 
             done = true;
-            pieceElem.classList.add("no-trans");
-            pieceElem.style.position = pieceElem.style.top = pieceElem.style.left = "";
-
             groupHome.appendChild(pieceElem);
+            pieceElem.style.position = pieceElem.style.top = pieceElem.style.left = '';
+
             lastMove = groupHome.id;
-            arrangePile(lastMove);
+            // arrangePile(lastMove);
             piece.pos = groupHome.id;
 
-
-            if (repeat) {
-                let store = document.getElementById("store");
-                store.innerHTML = store.innerHTML == 1 ? 2 : 1;
-
+            if (timesPlayedSix || repeat) {
                 repeat = false;
+                canRoll = true;
 
-                can = true;
-                if (activePlayer == "BOT")
+                if (activePlayer.name == "BOT")
                     setTimeout(rollDice, 1000);
             }
         }
+
+        setTimeout(() => {
+            pieceElem.style.left = (endPos.x - startPos.x) + "px";
+            pieceElem.style.top = (endPos.y - startPos.y) + "px";
+
+            // failsafe
+            setTimeout(pluto, 500);
+        });
+
+        safeAud.play();
 
     } else {
         // check for stacks of pieces on top of each other
@@ -424,16 +422,8 @@ let play = (roll, piece) => {
             document.getElementById(gps).classList.remove(`${side}block`, 'block');
         }
 
-        pieceElem.classList.add("no-trans");
-
-        let cont = document.getElementById(gps), contPos = cont.getBoundingClientRect();
+        let cont = document.getElementById(gps);
         let cellNo = eval(gps.split(gps.includes("Spec") ? side : "cell")[1]);
-
-        // set initial position 
-        pieceElem.style.position = "absolute";
-        pieceElem.style.top = contPos.y + "px";
-        pieceElem.style.left = contPos.x + "px";
-        pieceElem.classList.remove("no-trans");
 
         slideAud.play();
         dest = getDestination(piece, cellNo, roll);
@@ -444,23 +434,19 @@ let play = (roll, piece) => {
         
         // visually move the piece
         move(pieceElem, side, cont, destElem)
-
-        addEventListener('transitionsEnded', pluto, { once: true })
-        // failsafe
-        // setTimeout(pluto, 500);
-
-
-        function pluto() {
+        
+        const pluto = () => {
             if (moved) return
 
             moved = true;
-            pieceElem.classList.add("no-trans");
-            destElem.appendChild(pieceElem);
+            setTimeout(() => {
+                destElem.appendChild(pieceElem);
+                pieceElem.style.position = pieceElem.style.top = pieceElem.style.left = '';
+            })
 
-            pieceElem.style.position = pieceElem.style.top = pieceElem.style.left = "";
 
             // arrange the last pile
-            arrangePile(gps);
+            // arrangePile(gps);
 
             piece.pos = dest;
 
@@ -470,7 +456,7 @@ let play = (roll, piece) => {
             if (destElem.classList.contains("safe")) {
                 // arrange the new pile
                 safeAud.play();
-                arrangePile(dest);
+                // arrangePile(dest);
             } else {
                 // if not a safe zone
                 let curSide = side + "p";
@@ -504,7 +490,7 @@ let play = (roll, piece) => {
                 }
             }
 
-            arrangePile(dest);
+            // arrangePile(dest);
             if (destElem.classList.contains("finish")) {
                 piece.pos = "finish";
                 safeAud.play();
@@ -512,24 +498,38 @@ let play = (roll, piece) => {
                     winner(side);
             }
 
-            if (repeat) {
-                let store = document.getElementById("store");
-                store.innerHTML = store.innerHTML == 1 ? 2 : 1;
+            if (timesPlayedSix || repeat) {
+                canRoll = true;
 
-                repeat = false;
-
-                can = true;
-                if (activePlayer == "BOT")
-                    setTimeout(rollDice, 1000);
+                if (activePlayer.name === "BOT")
+                    setTimeout(rollDice, 500);
             } else
                 updateTurn();
         };
+
+        addEventListener('transitionsEnded', pluto, { once: true })
+        // failsafe
+        // setTimeout(pluto, 500);
+
     }
 
-    document.querySelectorAll(".all-pieces .glow").forEach(g => g.classList.remove("glow"));
+    document.querySelectorAll(".all-pieces.glow").forEach(g => {
+        g.classList.remove("glow")
+    });
 
-    halt = true;
+    canPlay = false;
 }
+
+function centreOfElement(element){
+    const dimension = element?.getBoundingClientRect?.();
+    if (!dimension) return null;
+
+    return {
+        left: dimension.x + dimension.width / 2 + "px",
+        top: dimension.y + dimension.height / 2 + "px",
+    }
+}
+
 
 function arrangePile(address, item) {
     let arr, cell;
@@ -588,52 +588,31 @@ function arrangePile(address, item) {
 }
 
 function move(pieceElem, color, orignElem, destElem){
-    // // if on same line of movement
-    // if (orignElem.dataset.move == destElem.dataset.move){
-    //     pieceElem.style.left = destElem.getBoundingClientRect().x + "px";
-    //     pieceElem.style.top = destElem.getBoundingClientRect().y + "px";
-    //     dispatchEvent(new Event('transitionsEnded'));
-
-    // } else {
-    //     if (destElem.dataset.move == "hor") {
-    //         pieceElem.style.top = destElem.getBoundingClientRect().y + "px";
-
-    //         pieceElem.addEventListener(transitionEnd, () => {
-    //             pieceElem.style.left = destElem.getBoundingClientRect().x + "px";
-    //             pieceElem.addEventListener(transitionEnd, () => {
-    //                 pieceElem.style.top = destElem.getBoundingClientRect().y + "px";
-    //                 dispatchEvent(new Event('transitionsEnded'));
-    //             }, { once: true })
-    //         }, { once: true })
-    //     } else {
-    //         pieceElem.style.left = destElem.getBoundingClientRect().x + "px";
-
-    //         pieceElem.addEventListener(transitionEnd, () => {
-    //             pieceElem.style.top = destElem.getBoundingClientRect().y + "px";
-    //             pieceElem.addEventListener(transitionEnd, () => {
-    //                 pieceElem.style.left = destElem.getBoundingClientRect().x + "px";
-    //                 dispatchEvent(new Event('transitionsEnded'));
-    //             }, { once: true })
-    //         }, { once: true })
-    //     }
-    // }
+    const startPos = orignElem.getBoundingClientRect();
     translateTo(Cell(orignElem).getNext(color));
 
     function translateTo(next){
         let nextElem = document.querySelector(next);
+        const nextPos =  nextElem.getBoundingClientRect();
+        
+        let transitioned = false;
+        const transitionPiece = () => {
+            if (transitioned) return;
+            transitioned = true;
 
-        // move to positon
-        pieceElem.style.left = nextElem.getBoundingClientRect().x + "px";
-        pieceElem.style.top = nextElem.getBoundingClientRect().y + "px";
-
-        pieceElem.addEventListener(transitionEnd, () => {
             if (destElem != nextElem){
                 // after transition move to next
                 return translateTo(Cell(nextElem).getNext(color))
             }
             dispatchEvent(new Event('transitionsEnded'));
-        }, { once: true })
+        }
 
+        setTimeout(transitionPiece, 400);
+        pieceElem.addEventListener(transitionEnd, transitionPiece, { once: true })
+
+        // move to positon
+        pieceElem.style.left = (nextPos.x - startPos.x) + "px";
+        pieceElem.style.top = (nextPos.y - startPos.y) + "px";
     }
 
     function Cell(elem){
@@ -644,52 +623,31 @@ function move(pieceElem, color, orignElem, destElem){
 function goBack(obj) {
     const {pos, id, color} = obj;
     let orignElem = document.getElementById(pos), pieceElem = document.getElementById(id);
+    const startPos = orignElem.getBoundingClientRect();
     
     playCapture();
-    translateTo(Cell(orignElem).getPrev(color));
-
+    console.log(`#${color}house${id.slice(-1)}`);
+    translateTo(`#${color}house${id.slice(-1)}`);
 
     function translateTo(prev){
-        let prevElem = document.querySelector(prev ?? '');
+        let prevElem = document.querySelector(prev);
+        const prevPos = prevElem.getBoundingClientRect();
+        
+        let transitioned = false;
+        const transitionPiece = () => {
+            if (transitioned) return;
+            transitioned = true;
+            
+            dispatchEvent(new Event('transitionsEnded'));
+        }
+
+        setTimeout(transitionPiece, 400);
+        pieceElem.addEventListener(transitionEnd, transitionPiece, { once: true });
 
         // move to positon
-        pieceElem.style.left = prevElem.getBoundingClientRect().x + "px";
-        pieceElem.style.top = prevElem.getBoundingClientRect().y + "px";
-
-        pieceElem.addEventListener(transitionEnd, () => {
-            if (prevElem != null){
-                // after transition move to previous
-                return translateTo(Cell(prevElem).getPrev(color))
-            }
-            dispatchEvent(new Event('transitionsEnded'));
-        }, { once: true })
-
+        pieceElem.style.left = (prevPos.x - startPos.x) + "px";
+        pieceElem.style.top = (prevPos.y - startPos.y) + "px";
     }
-
-    // let contPos = document.getElementById(tracker).getBoundingClientRect();
-    // elem.style.position = "absolute";
-    // elem.style.top = contPos.y + "px";
-    // elem.style.left = contPos.x + "px";
-
-    // elem.classList.remove("no-trans");
-
-    // playCapture();
-
-    // let tmp = document.getElementById(`${hue}span`).getBoundingClientRect();
-    // elem.style.left = tmp.x + "px";
-    // elem.style.top = tmp.y + "px";
-    // elem.style.transitionDuration = '';
-
-    // elem.addEventListener(transitionEnd, function () {
-    //     document.getElementById(`${hue}house`).appendChild(elem);
-    //     arrangePile(tracker);
-    //     arrangePile(null, elem);
-
-    //     elem.style.position = elem.style.top = elem.style.left = "";
-
-    //     obj.out = false;
-    //     obj.pos = `${hue}house`;
-    // }, {once: true});
 }
 
 
@@ -740,23 +698,20 @@ let clearAll = () => {
 
         for (let i = 0; i < 4; i++) {
             let p = document.getElementById(group[i].id);
-            arrangePile(null, p);
+            // arrangePile(null, p);
             document.getElementById(`${color}house`).append(p);
             group[i].pos = color + "house";
 
             turnDivs[i].classList.add("hidden");
         }
     }
-    document.getElementById("store").innerHTML = document.getElementById("store-roll").innerHTML = "";
+    timesPlayedSix = 0;
 }
 
 let toMainMenu = () => {
     clearAll();
     closeOverlays();
 
-    for (let color of colors) {
-        document.getElementById(`${color}house`).innerHTML = `<span id="${color}span"></span>`;
-    }
     inputs.forEach(inp => {
         inp.classList.remove("valid");
         inp.value = ""
@@ -770,7 +725,7 @@ let toMainMenu = () => {
         iconSpace.classList.remove("valid");
 
     colors = [];
-    can = true;
+    canRoll = true;
     document.getElementsByClassName("game-wrapper")[0].classList.add("invisible");
     document.getElementById("preGame-overlay").classList.remove("hidden");
     document.getElementsByClassName("_0")[0].classList.remove("hidden");
@@ -790,7 +745,7 @@ let restartGame = () => {
     clearAll();
     closeOverlays();
     pauseBtn.classList.remove("invisible");
-    can = true;
+    canRoll = true;
     rollDice();
 }
 

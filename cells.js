@@ -16,30 +16,35 @@ for (let col of allColors) {
 
 function linkCells(){
     let init = 1;
-    let prev = 52;
 
-    
     let func = int => `#cell${int}`, func1 = (int, col) => `#cellSpec${col}${int}`
 
     for (let i = init; i < 53; i++){
         let next = i == 52? 1 : i + 1;
+        let prev = i == 1? 52 : i - 1;
         constructCell(func(i), func(prev), func(next));
     }
 
-    for (let color of colors){
+    for (let color of allColors){
         // construct the home cells
         for (let i = init; i <= 6; i++){
             if (i == init){
-                constructCell(func1(i, color), func(almostHome[color]), func1(next, color));
-            } else if (i == 6){
-                constructCell(func1(i, color), func1(prev, color), null);
+                constructCell(func1(i, color), func(almostHome[color]), func1(i + 1, color));
+
+            } else if (i === 6){
+                constructCell(func1(i, color), func1(i - 1, color), null);
+
             } else {
-                constructCell(func1(i, color), func1(prev, color), func1(next, color));
+                constructCell(func1(i, color), func1(i - 1, color), func1(i + 1, color));
             }
         }
 
         // link the almost home to home
-        document.querySelector(func(almostHome[color])).cell.next[color] = func1(1);
+        constructCell(func(almostHome[color]), func(almostHome[color] - 1), {
+            default: func(almostHome[color] + 1),
+            [color]: func1(1, color)
+        })
+
 
         // link initial cell for that color group to null
         document.querySelector(func(initCell[color])).cell.next[color] = null;
@@ -51,8 +56,8 @@ function linkCells(){
 function constructCell (selector, prev, next){
     let elem = document.querySelector(selector);
 
-    next = typeof next == Object? next : {default: next};
-    prev = typeof prev == Object? prev : {default: prev};
+    next = typeof next === 'object'? next : {default: next};
+    prev = typeof prev === 'object'? prev : {default: prev};
 
     let toString = _ => `Game cell at ${selector}`,
     getNext = col => next[col] ?? next["default"],
@@ -79,3 +84,4 @@ for (let cell of safeCells) {
 }
 
 linkCells()
+console.log("dfvbuhreb");
