@@ -1,11 +1,12 @@
+import { playRoll } from "../audio";
+import { getActivePlayer, outPieces, pausedGame, playables, turn, updateTurn } from "../script";
+
 const dieImages = ["dice-01.svg", "dice-02.svg", "dice-03.svg", "dice-04.svg", "dice-05.svg", "dice-06.svg"];
-const die = document.getElementById("die-1");
+export const die = document.getElementById("die-1");
 
-let pause = false;
 let dieRoll = null;
-let canRoll = true;
 
-let timesPlayedSix = 0;
+export let timesPlayedSix = 0, canRoll = true;
 
 
 function getTransitionEndEventName() {
@@ -21,26 +22,18 @@ function getTransitionEndEventName() {
             return transitions[transition];
 }
 
-const transitionEnd = getTransitionEndEventName();
+export const transitionEnd = getTransitionEndEventName();
 
 
-
-function initDice() {
-    die.onclick = callRoll;
-
-    const randomVal = Math.floor(Math.random() * 6);
-
-    die.setAttribute("src", `./Roll_The_Dice/${dieImages[randomVal]}`);
-}
-
-function rollDice() {
-    if (canRoll && !pause && turn >= 0) {
+export function rollDice() {
+    if (canRoll && !pausedGame && turn >= 0) {
 
         canRoll = false;
         die.classList.add("spin");
 
-        rollAud.play();
+        playRoll();
 
+        let f;
         setTimeout( f = function (iter = 0) {
             let rolling = Math.floor(Math.random() * 6);
             
@@ -51,6 +44,7 @@ function rollDice() {
 
             } else {
                 die.classList.remove("spin");
+                die.setAttribute("src", `./Roll_The_Dice/${dieImages[rolling]}`);
                 dieRoll = rolling + 1;
                 useRolled(dieRoll);
             }
@@ -60,6 +54,7 @@ function rollDice() {
 
 function useRolled(value){
     canRoll = false;
+    const activeColor = getActivePlayer().color;
     if (
         (value < 6 && !outPieces(activeColor).length)
         || (value == 6 && timesPlayedSix == 2)
@@ -74,9 +69,18 @@ function useRolled(value){
     }
 }
 
+export function initDice() {
+    die.onclick = callRoll;
+    const randomVal = Math.floor(Math.random() * 6);
+    die.setAttribute("src", `./Roll_The_Dice/${dieImages[randomVal]}`);
+}
 
 function callRoll() {
-    if (!bot) {
+    if (!getActivePlayer().isBot) {
         rollDice();
     }
+}
+
+export function setRoll(bool){
+    canRoll = bool;
 }

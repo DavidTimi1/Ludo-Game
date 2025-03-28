@@ -166,7 +166,7 @@
                     LUDO GAME
                 </h1>
 
-                <button class="btn" type="button" onclick="overlay(1)">
+                <button id="init-btn" class="btn" type="button">
                     PLAY GAME
                 </button>
             </div>
@@ -254,7 +254,7 @@
             <!-- current player -->
         </h2>
         
-        <button id="pause-all" type="button" class="invisible" onclick="pauseAll()">
+        <button id="pause-all" type="button" class="invisible">
             <i class="fa-solid fa-pause"></i>
         </button>
 
@@ -264,7 +264,7 @@
             <table id="gameboard">
                 
                 <tr>
-                    <td rowspan="6" colspan="6" id="greenhouse" class="green rounded-tl-[5rem]">
+                    <td rowspan="6" colspan="6" id="greenhouse" class="green rounded-tl-[3rem]">
                         <div class="w-full h-full flex items-center justify-center">
                             <table class="centre-table">
                             <tr>
@@ -283,7 +283,7 @@
                     <td id="cell11"  data-move="hor"></td>
                     <td id="cell12" class="red-arrow home-come" data-move="hor"></td>
                     <td id="cell13" data-move="hor"></td>
-                    <td rowspan="6" colspan="6" id="redhouse" class="red rounded-tr-[5rem]">
+                    <td rowspan="6" colspan="6" id="redhouse" class="red rounded-tr-[3rem]">
                         <div class="w-full h-full flex items-center justify-center">
                             <table class="centre-table">
                             <tr>
@@ -384,7 +384,7 @@
                     <td id="cell26" data-move="vert"></td>
                 </tr>
                 <tr>
-                    <td rowspan="6" colspan="6" id="yellowhouse" class="yellow rounded-bl-[5rem]">
+                    <td rowspan="6" colspan="6" id="yellowhouse" class="yellow rounded-bl-[3rem]">
                         <div class="w-full h-full flex items-center justify-center">
                             <table class="centre-table">
                                 <tr>
@@ -404,7 +404,7 @@
                     <td id="cell44" data-move="vert"></td>
                     <td id="cellSpecyellow5" class="yellow" data-move="vert"></td>
                     <td id="cell32" data-move="vert"></td>
-                    <td rowspan="6" colspan="6" id="bluehouse" class="blue rounded-br-[5rem]">
+                    <td rowspan="6" colspan="6" id="bluehouse" class="blue rounded-br-[3rem]">
                         <div class="w-full h-full flex items-center justify-center">
                             <table class="centre-table">
                             <tr>
@@ -545,10 +545,6 @@
     </div>
     
 </body>
-<script src="pregame.js"></script>
-<script src="audio.js"></script>
-<script src="script.js"></script>
-<script src="settings.js"></script>
-<script src="cells.js"></script>
-<script src="./Roll_The_Dice/roll_dice.js"></script>
+<script type="module" src="script.js"></script>
+<script type="module" src="settings.js"></script>
 </html>

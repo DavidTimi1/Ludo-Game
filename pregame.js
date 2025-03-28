@@ -1,9 +1,15 @@
+import { playClick } from "./audio";
+import { allColors } from "./cells";
+import { initDice } from "./Roll_The_Dice/roll_dice";
+import { makePieces, updateTurn } from "./script";
+import { toggleSettings } from "./settings";
+
 let PLAYERS = [];
 let MODE = null;
 let CURRENT_STAGE = "init";
 
-function getMode(){ return MODE }
-function getPlayers(){ return PLAYERS }
+export function getMode(){ return MODE }
+export function getPlayers(){ return PLAYERS }
 
 
 const flow = ["init", "mode", "players"];
@@ -80,8 +86,7 @@ document.getElementById("registration-form")
 function registerPlayers(e){
     e.preventDefault();
 
-    let form = e.target;
-    GTG = false // NOT GOOD TO GO!!!
+    let form = e.target, GTG = false // NOT GOOD TO GO!!!
     const errorElem = document.getElementById("reg-error");
     
     let usedNames = [];
@@ -120,7 +125,8 @@ function registerPlayers(e){
         PLAYERS.push({
             name: input.value,
             icon: "BOT" ? robotIcon : playerIcon,
-            color: allColors[i]
+            color: allColors[i],
+            isBot: name === "BOT",
         })
     })
 
@@ -131,4 +137,83 @@ function registerPlayers(e){
     }
 
     PLAYERS = []
+}
+
+
+const robotIcon = `<i class="fa-solid fa-robot"></i>`;
+const playerIcon = `<i class="fa-solid fa-user"></i>`
+const iconSpaces = document.getElementsByClassName("user-icon");
+
+
+let playersNo = n => {
+
+    // when registration is ongoing
+    for (let i = 0; i < inputs.length; i++) {
+        let inp = inputs[i];
+        // change colour of the registration field
+        let color = inp.classList[0];
+
+        // for number of selected players
+        if (!inputWrap(inp).classList.contains("hidden")) {
+            inp.classList.add("valid");
+
+            inp.onfocus = ev => {
+                if (inp.value == "BOT") {
+                    inp.value = "";
+                    iconSpaces[i].innerHTML = playerIcon;
+                    iconSpaces[i].childNodes[0].style.color = color;
+                }
+            }
+
+            inp.onblur = ev => {
+                if (!inp.value) {
+                    inp.value = "BOT";
+                    iconSpaces[i].innerHTML = robotIcon;
+                    iconSpaces[i].childNodes[0].style.color = color;
+                }
+            }
+            addEventListener('close reg', () => { inp.onblur = inp.onfocus = null }, { once: true })
+        }
+    }
+}
+
+
+document.getElementById('init-btn').onclick = () => {overlay(1)};
+
+const overlay = count => {
+    // when switching between overlays
+    // if this is the lst overlay
+    if (count != 3) {
+        playClick();
+        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
+        document.getElementsByClassName(`_${count}`)[0].classList.remove("hidden");
+
+        if (count != 2) dispatchEvent(new Event('close reg'))
+
+    } else {
+        // show players cards
+        const players = getPlayers();
+
+        for (let p of players){
+            const {name, color, icon} = p;
+            const card = document.querySelector(`.player-card[data-colgroup="${color}"]`);
+            
+            card.getElementsByClassName("p-name")[0].innerHTML = name;
+            card.getElementsByClassName("p-icon")[0].innerHTML = icon;
+        }
+
+        const pauseBtn = document.getElementById("pause-all");
+        pauseBtn.classList.remove("invisible");
+        makePieces();
+
+        // show the gameboard
+        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
+        document.getElementsByClassName(`_${count}`)[0].classList.remove("invisible");
+        document.getElementById("preGame-overlay").classList.add("hidden");
+   
+        initDice()
+        updateTurn();
+        
+    }
+
 }

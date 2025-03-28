@@ -1,3 +1,4 @@
+import { playClick } from "./audio";
 
 function changeAUTO(){
     if (document.getElementById("switch-cont").classList.contains("on")){
@@ -13,17 +14,18 @@ function changeAUTO(){
         document.getElementById("auto-on").style.backgroundColor = "white";
         document.getElementById("auto-off").style.backgroundColor = "transparent";
     }
-    clickAud.play();
+    playClick();
 }
 // document.getElementById("switch-cont").addEventListener('mousedown',changeAUTO);
 document.getElementById("switch-cont").addEventListener('click',changeAUTO);
 
+let AUTO = false;
 
-let toggleSettings = (n)=>{
+export const toggleSettings = (n)=>{
     let wrapper = document.getElementsByClassName("settings-wrapper")[0];
     let wheels = document.getElementsByClassName("fa-gear");
     let wrapperBox = document.getElementsByClassName("settings-container")[0];
-    clickAud.play();
+    playClick();
 
     if (n == "in"){
         wheels[0].style.transform = wheels[1].style.transform = "rotate(0deg)";
@@ -44,9 +46,9 @@ let toggleSettings = (n)=>{
 let soundVol;
 let musicVol;
 
-let vol = (type)=>{
+const vol = (type)=>{
     let hidden = document.querySelector(".hidden");
-    clickAud.play();
+    playClick();
     if (type == "vol"){
         soundVol = document.getElementById("vol-slide").value;
         let activeIcon = document.querySelector("#vol-icon .active");
@@ -83,3 +85,13 @@ let vol = (type)=>{
     }
 }
 
+
+const pauseBtn = document.getElementById("pause-all");
+
+export const pauseAll = () => {
+    playClick();
+    pausedGame = true;
+    pauseBtn.classList.add("invisible");
+    document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
+    document.getElementById("pause-overlay").classList.remove("hidden");
+}

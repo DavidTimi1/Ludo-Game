@@ -2,6 +2,13 @@
 // settings panel
 // 
 
+import { playClick, playGlow, playSafe, playSelect, playSlide, playStop } from "./audio";
+import { almostHome, initCell } from "./cells";
+import { getPlayers } from "./pregame";
+import { canRoll, die, rollDice, setRoll, timesPlayedSix, transitionEnd } from "./Roll_The_Dice/roll_dice";
+import { pauseAll } from "./settings";
+
+
 // object creator for ludo pieces
 function Pieces(color) {
     this.id = null;
@@ -13,13 +20,9 @@ function Pieces(color) {
 let leaderboard = [];
 let colorboard = [];
 
-// available colours
-let colors = [];
-
 const pauseBtn = document.getElementById("pause-all");
-
-// the width and height of all the playable cells
-let width = document.querySelector("#cell1").getBoundingClientRect().width;
+pauseBtn.onclick = pauseAll;
+export let pausedGame = false;
 
 // list of all the pieces
 let allPieces = [];
@@ -32,11 +35,11 @@ let bluePieces = [];
 let greenPieces = [];
 let yellowPieces = [];
 
-let outPieces = color => getGroup(color).filter(p => p.out)
-let donePieces = color => getGroup(color).filter(p => p.done)
+export let outPieces = color => getGroup(color).filter(p => p.out);
+export let donePieces = color => getGroup(color).filter(p => p.done);
 
 
-let getGroup = color => {
+const getGroup = color => {
     switch (color) {
         case 'red': return redPieces;
         case 'blue': return bluePieces;
@@ -45,8 +48,10 @@ let getGroup = color => {
     }
 }
 
-let makePieces = () => {
+export const makePieces = () => {
     // for each color
+    const colors = getPlayers().map(p => p.color);
+
     for (let color of colors) {
         // for all pieces in the colour group
         for (let j = 0; j < 4; j++) {
@@ -79,111 +84,30 @@ let makePieces = () => {
 
 
 
-
-
 // initailize the turn to a non-zero value
-let turn = -1;
-let activeColor;
+export let turn = -1;
 let activePlayer;
+export let getActivePlayer = _ => activePlayer;
 
 
-let N_O_P, AUTO = false;
-
-
-let overlay = count => {
-    // when switching between overlays
-    // if this is the lst overlay
-    if (count != 3) {
-        playClick();
-        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
-        document.getElementsByClassName(`_${count}`)[0].classList.remove("hidden");
-
-        if (count != 2) dispatchEvent(new Event('close reg'))
-
-    } else {
-        // show players cards
-        const players = getPlayers();
-        N_O_P = players.length;
-
-        for (let p of players){
-            const {name, color, icon} = p;
-            const card = document.querySelector(`.player-card[data-colgroup="${color}"]`);
-            
-            card.getElementsByClassName("p-name")[0].innerHTML = name;
-            card.getElementsByClassName("p-icon")[0].innerHTML = icon;
-        }
-
-        pauseBtn.classList.remove("invisible");
-        colors = players.map( p => p.color);
-        makePieces();
-
-        // show the gameboard
-        document.getElementsByClassName(`_${count - 1}`)[0].classList.add("hidden");
-        document.getElementsByClassName(`_${count}`)[0].classList.remove("invisible");
-        document.getElementById("preGame-overlay").classList.add("hidden");
-   
-        initDice()
-        updateTurn();
-        
-    }
-
-}
-
+export let AUTO = false;
 
 let inputs = document.querySelectorAll(".register input");
 let inputWrap = elem => elem.closest("label");
-let robotIcon = `<i class="fa-solid fa-robot"></i>`;
-let playerIcon = `<i class="fa-solid fa-user"></i>`
-let iconSpaces = document.getElementsByClassName("user-icon");
 
 
-let playersNo = n => {
-
-    // when registration is ongoing
-    for (let i = 0; i < inputs.length; i++) {
-        let inp = inputs[i];
-        // change colour of the registration field
-        let color = inp.classList[0];
-
-        // for number of selected players
-        if (!inputWrap(inp).classList.contains("hidden")) {
-            inp.classList.add("valid");
-
-            inp.onfocus = ev => {
-                if (inp.value == "BOT") {
-                    inp.value = "";
-                    iconSpaces[i].innerHTML = playerIcon;
-                    iconSpaces[i].childNodes[0].style.color = color;
-                }
-            }
-
-            inp.onblur = ev => {
-                if (!inp.value) {
-                    inp.value = "BOT";
-                    iconSpaces[i].innerHTML = robotIcon;
-                    iconSpaces[i].childNodes[0].style.color = color;
-                }
-            }
-            addEventListener('close reg', () => { inp.onblur = inp.onfocus = null }, { once: true })
-        }
-    }
-}
-
-
-
-let bot = false;
 
 // to update the turn count
-function updateTurn() {
+export function updateTurn() {
     const players = getPlayers();
 
     do {
-        turn = (turn + 1) % N_O_P;
+        turn = (turn + 1) % players.length;
 
     } while ( donePieces(players[turn].color).length == 4);
 
     activePlayer = players[turn];
-    activeColor = activePlayer.color;
+    const activeColor = activePlayer.color;
 
     const turnBanner = document.getElementById(`turn-div`);
     turnBanner.innerHTML = `${activePlayer.name}'s turn`;
@@ -192,28 +116,23 @@ function updateTurn() {
     // open the next players turn
     document.querySelector(`.player-card[data-colgroup="${activeColor}"] .dice-wrapper`).appendChild(die);
 
-    setTimeout(function () {
-        if (activePlayer.name === "BOT") {
-            bot = canRoll = true;
-            rollDice();
-            
-        } else {
-            canRoll = true;
-            bot = false;
-        }
-    }, 1500);
+    setRoll(true)
+
+    if (activePlayer.isBot)
+        setTimeout(rollDice, 500);
 }
 
 
 let canPlay = false;
 
 // check whether the selected piece can be played
-let playables = (roll, color) => {
+export const playables = (roll, color) => {
     let colP = getGroup(color), canBePlayed = [];
     canPlay = true;
 
     // if computer is to play
-    const isBot = activePlayer.name == "BOT";
+    const isBot = activePlayer.isBot;
+    const activeColor = activePlayer.color;
 
     let done = false, e;
 
@@ -254,7 +173,7 @@ let playables = (roll, color) => {
 
         // if a user is to play and auto play is off
         if (!isBot && !AUTO){
-            glowAud.play();
+            playGlow();
 
             canBePlayed.forEach( seed => {
                 const seedElem = document.getElementById(seed.id);
@@ -322,7 +241,7 @@ let playables = (roll, color) => {
                                 playZone.push("capture");
 
                             } else if ((sum > almostHome[color] && sum < initCell[color] + rolled) || (color == "green" && sum > 51)) {
-                                dist = sum - almostHome[color];
+                                const dist = sum - almostHome[color];
 
                                 playZone.push(dist < 6 ? "safe" : "finish");
                             } else if (document.getElementById(`${seed.pos}`).classList.contains("safe")) {
@@ -359,9 +278,7 @@ let playables = (roll, color) => {
 }
 
 
-let selected = null;
-
-let play = (roll, piece) => {
+const play = (roll, piece) => {
     let ID = piece.id;
     let gps = piece.pos;
     let side = piece.color;
@@ -390,15 +307,15 @@ let play = (roll, piece) => {
             groupHome.appendChild(pieceElem);
             pieceElem.style.position = pieceElem.style.top = pieceElem.style.left = '';
 
-            lastMove = groupHome.id;
+            const lastMove = groupHome.id;
             // arrangePile(lastMove);
             piece.pos = groupHome.id;
 
             if (timesPlayedSix || repeat) {
                 repeat = false;
-                canRoll = true;
+                setRoll(true);
 
-                if (activePlayer.name == "BOT")
+                if (activePlayer.isBot)
                     setTimeout(rollDice, 1000);
             }
         }
@@ -411,7 +328,7 @@ let play = (roll, piece) => {
             setTimeout(pluto, 500);
         });
 
-        safeAud.play();
+        playSafe()
 
     } else {
         // check for stacks of pieces on top of each other
@@ -425,7 +342,6 @@ let play = (roll, piece) => {
         let cont = document.getElementById(gps);
         let cellNo = eval(gps.split(gps.includes("Spec") ? side : "cell")[1]);
 
-        slideAud.play();
         dest = getDestination(piece, cellNo, roll);
 
         destElem = document.getElementById(dest);
@@ -450,12 +366,9 @@ let play = (roll, piece) => {
 
             piece.pos = dest;
 
-            slideAud.pause();
-            slideAud.currentTime = 0;
-
             if (destElem.classList.contains("safe")) {
                 // arrange the new pile
-                safeAud.play();
+                playSafe();
                 // arrangePile(dest);
             } else {
                 // if not a safe zone
@@ -467,7 +380,7 @@ let play = (roll, piece) => {
                     if (destElem.classList.contains(curSide)) {
                         destElem.classList.add(`${side}block`, "block");
 
-                        safeAud.play();
+                        playSafe();
 
                         // not the same group and a bock exists? back to base
                     } else if (destElem.classList.contains("block")) {
@@ -486,7 +399,7 @@ let play = (roll, piece) => {
 
                 } else {
                     destElem.classList.add("occupied", curSide);
-                    outAud.play();
+                    playStop();
                 }
             }
 
@@ -499,17 +412,15 @@ let play = (roll, piece) => {
             }
 
             if (timesPlayedSix || repeat) {
-                canRoll = true;
+                setRoll(true);
 
-                if (activePlayer.name === "BOT")
+                if (activePlayer.isBot)
                     setTimeout(rollDice, 500);
             } else
                 updateTurn();
         };
 
-        addEventListener('transitionsEnded', pluto, { once: true })
-        // failsafe
-        // setTimeout(pluto, 500);
+        addEventListener('transitionsEnded', pluto, { once: true });
 
     }
 
@@ -518,16 +429,6 @@ let play = (roll, piece) => {
     });
 
     canPlay = false;
-}
-
-function centreOfElement(element){
-    const dimension = element?.getBoundingClientRect?.();
-    if (!dimension) return null;
-
-    return {
-        left: dimension.x + dimension.width / 2 + "px",
-        top: dimension.y + dimension.height / 2 + "px",
-    }
 }
 
 
@@ -626,7 +527,6 @@ function goBack(obj) {
     const startPos = orignElem.getBoundingClientRect();
     
     playCapture();
-    console.log(`#${color}house${id.slice(-1)}`);
     translateTo(`#${color}house${id.slice(-1)}`);
 
     function translateTo(prev){
@@ -652,7 +552,6 @@ function goBack(obj) {
 
 
 function getDestination(item, prevPos, count) {
-    let itemId = item.id;
     let itemLoc = item.pos;
     let itemCol = item.color;
 
@@ -687,7 +586,7 @@ function getDestination(item, prevPos, count) {
 }
 
 
-let clearAll = () => {
+const clearAll = () => {
     turn = -1;
     for (let color of colors) {
         let group = getGroup(color)
@@ -708,7 +607,7 @@ let clearAll = () => {
     timesPlayedSix = 0;
 }
 
-let toMainMenu = () => {
+const toMainMenu = () => {
     clearAll();
     closeOverlays();
 
@@ -721,37 +620,25 @@ let toMainMenu = () => {
         wrap.classList.add("hidden");
     });
 
-    for (let iconSpace of iconSpaces)
-        iconSpace.classList.remove("valid");
-
-    colors = [];
-    canRoll = true;
+    setRoll(true);
     document.getElementsByClassName("game-wrapper")[0].classList.add("invisible");
     document.getElementById("preGame-overlay").classList.remove("hidden");
     document.getElementsByClassName("_0")[0].classList.remove("hidden");
 }
 
 
-let pauseAll = () => {
-    playClick();
-    pause = true;
-    pauseBtn.classList.add("invisible");
-    document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
-    document.getElementById("pause-overlay").classList.remove("hidden");
-}
-
-let restartGame = () => {
+const restartGame = () => {
     turn = -1;
     clearAll();
     closeOverlays();
     pauseBtn.classList.remove("invisible");
-    canRoll = true;
+    setRoll(true);
     rollDice();
 }
 
-let verify = func => {
+const verify = func => {
     playClick();
-    pause = true;
+    pausedGame = true;
     pauseBtn.classList.add("invisible");
     document.getElementById("pause-overlay").classList.add("hidden");
     document.getElementById("store-act").innerHTML = func;
@@ -759,11 +646,12 @@ let verify = func => {
     document.getElementById("verify-overlay").classList.remove("hidden");
 }
 
-let winner = color => {
+const winner = color => {
     // when someone completes his pieces
     let overlay = document.getElementById("winner-overlay");
-    pause = true;
+    pausedGame = true;
     pauseBtn.classList.add("invisible");
+    const colors = getPlayers().map(p => p.color);
 
     // add to the leaderboard
     colorboard.push(color);
@@ -807,7 +695,7 @@ let winner = color => {
 
         let notRanked = colors.filter(c => !colorboard.includes(c));
         for (let color of notRanked) {
-            pause = false;
+            pausedGame = false;
             let playerName = document.querySelector(`#p-${color}-turn .player-name`).innerText;
             unranked.insertAdjacentHTML("beforeend",
                 `<li style="color: ${color};">
@@ -830,9 +718,9 @@ let winner = color => {
 }
 
 
-let vertAction = () => {
+const vertAction = () => {
     playClick();
-    pause = false;
+    pausedGame = false;
     document.getElementsByClassName("Overlay").classList.add("hidden");
     document.getElementById("verify-overlay").classList.add("hidden");
     let action = document.getElementById("store-act").innerHTML;
@@ -840,26 +728,25 @@ let vertAction = () => {
 }
 
 
-let closeVert = () => {
+const closeVert = () => {
     playClick();
     document.getElementById("store-act").innerHTML = "";
     closeOverlays();
 
-    pause = false;
+    pausedGame = false;
     pauseBtn.classList.remove("invisible");
-    if (bot)
-        setTimeout(rollDice, 500);
+    
+    if (activePlayer.isBot) setTimeout(rollDice, 500);
 }
 
 
-let resume = () => {
+const resume = () => {
     playClick();
     closeOverlays();
-    pause = false;
+    pausedGame = false;
     pauseBtn.classList.remove("invisible");
 
-    if (bot)
-        setTimeout(rollDice, 500);
+    if (activePlayer.isBot) setTimeout(rollDice, 500);
 }
 
 

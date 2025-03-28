@@ -9,18 +9,38 @@ let glowAud = document.getElementById("glow-sound");
 let slideAud = document.getElementById("slide-sound");
 // let pulse = document.getElementById("glow-sound");
 
-function playError(){
+export function playError(){
     errorAud.play();
 }
 
-function playClick(){
+export function playClick(){
     clickAud.play();
 }
 
-function playSelect(){
+export function playSelect(){
     selectAud.play()
 }
 
-function playCapture(){
+export function playCapture(){
     captureAud.play()
+}
+
+export function playGlow(){
+    glowAud.play()
+}
+
+export function playSafe(){
+    safeAud.play()
+}
+
+export function playSlide(){
+    slideAud.play()
+}
+
+export function playRoll(){
+    rollAud.play()
+}
+
+export function playStop(){
+    outAud.play()
 }

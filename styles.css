@@ -378,6 +378,16 @@ footer p{
     transition: 0.25s;
     width: 80%;
     padding: 3px;
+
+    &:not(:first-child){
+        position: absolute;
+        top: 5px;
+        left: 5px;
+    }
+
+    &.glow {
+        z-index: 10;
+    }
 }
 
 #die-1{
@@ -395,7 +405,7 @@ footer p{
     margin-left: auto;
     margin-right: auto;
     background-color: #eee;
-    border-radius: 5rem;
+    border-radius: 3rem;
 }
 
 td:not([colspan]){

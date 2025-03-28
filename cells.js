@@ -1,13 +1,15 @@
-const allColors = ["red", "green", "blue", "green"];
-
-const initCell = {
+export const initCell = {
     green: 1,
     blue: 27,
     red: 14,
     yellow: 40 
 }
 
-const almostHome = {};
+export const almostHome = {};
+
+
+export const allColors = ["red", "green", "blue", "green"];
+
 for (let col of allColors) {
     let val = initCell[col] - 2;
     almostHome[col] = val > 1? val : 50;
@@ -83,5 +85,4 @@ for (let cell of safeCells) {
     }
 }
 
-linkCells()
-console.log("dfvbuhreb");
+linkCells();
