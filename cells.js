@@ -8,7 +8,7 @@ export const initCell = {
 export const almostHome = {};
 
 
-export const allColors = ["red", "green", "blue", "green"];
+export const allColors = ["green", "red", "blue", "yellow"];
 
 for (let col of allColors) {
     let val = initCell[col] - 2;

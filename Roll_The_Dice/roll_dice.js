@@ -1,5 +1,6 @@
 import { playRoll } from "../audio";
-import { getActivePlayer, outPieces, pausedGame, playables, turn, updateTurn } from "../script";
+import { getActivePlayer, outPieces, playables, turn, updateTurn } from "../script";
+import { pausedGame } from "../settings";
 
 const dieImages = ["dice-01.svg", "dice-02.svg", "dice-03.svg", "dice-04.svg", "dice-05.svg", "dice-06.svg"];
 export const die = document.getElementById("die-1");

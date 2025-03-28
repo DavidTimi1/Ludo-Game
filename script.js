@@ -2,11 +2,11 @@
 // settings panel
 // 
 
-import { playClick, playGlow, playSafe, playSelect, playSlide, playStop } from "./audio";
+import { playCapture, playClick, playGlow, playSafe, playSelect, playSlide, playStop } from "./audio";
 import { almostHome, initCell } from "./cells";
 import { getPlayers } from "./pregame";
-import { canRoll, die, rollDice, setRoll, timesPlayedSix, transitionEnd } from "./Roll_The_Dice/roll_dice";
-import { pauseAll } from "./settings";
+import { die, rollDice, setRoll, timesPlayedSix, transitionEnd } from "./Roll_The_Dice/roll_dice";
+import { AUTO, pauseAll, pausedGame } from "./settings";
 
 
 // object creator for ludo pieces
@@ -22,7 +22,6 @@ let colorboard = [];
 
 const pauseBtn = document.getElementById("pause-all");
 pauseBtn.onclick = pauseAll;
-export let pausedGame = false;
 
 // list of all the pieces
 let allPieces = [];
@@ -88,13 +87,6 @@ export const makePieces = () => {
 export let turn = -1;
 let activePlayer;
 export let getActivePlayer = _ => activePlayer;
-
-
-export let AUTO = false;
-
-let inputs = document.querySelectorAll(".register input");
-let inputWrap = elem => elem.closest("label");
-
 
 
 // to update the turn count
@@ -406,8 +398,8 @@ const play = (roll, piece) => {
             // arrangePile(dest);
             if (destElem.classList.contains("finish")) {
                 piece.pos = "finish";
-                safeAud.play();
-                if (donePieces(side).length == 4)
+
+                if (donePieces(side).length === 4)
                     winner(side);
             }
 
@@ -586,65 +578,6 @@ function getDestination(item, prevPos, count) {
 }
 
 
-const clearAll = () => {
-    turn = -1;
-    for (let color of colors) {
-        let group = getGroup(color)
-
-        let allCells = document.getElementsByTagName("td");
-        for (let cell of allCells)
-            cell.classList.remove(`${color}p`, "occupied", `${color}block`, "block");
-
-        for (let i = 0; i < 4; i++) {
-            let p = document.getElementById(group[i].id);
-            // arrangePile(null, p);
-            document.getElementById(`${color}house`).append(p);
-            group[i].pos = color + "house";
-
-            turnDivs[i].classList.add("hidden");
-        }
-    }
-    timesPlayedSix = 0;
-}
-
-const toMainMenu = () => {
-    clearAll();
-    closeOverlays();
-
-    inputs.forEach(inp => {
-        inp.classList.remove("valid");
-        inp.value = ""
-
-        let wrap = inputWrap(inp);
-        wrap.classList.remove("valid");
-        wrap.classList.add("hidden");
-    });
-
-    setRoll(true);
-    document.getElementsByClassName("game-wrapper")[0].classList.add("invisible");
-    document.getElementById("preGame-overlay").classList.remove("hidden");
-    document.getElementsByClassName("_0")[0].classList.remove("hidden");
-}
-
-
-const restartGame = () => {
-    turn = -1;
-    clearAll();
-    closeOverlays();
-    pauseBtn.classList.remove("invisible");
-    setRoll(true);
-    rollDice();
-}
-
-const verify = func => {
-    playClick();
-    pausedGame = true;
-    pauseBtn.classList.add("invisible");
-    document.getElementById("pause-overlay").classList.add("hidden");
-    document.getElementById("store-act").innerHTML = func;
-    document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
-    document.getElementById("verify-overlay").classList.remove("hidden");
-}
 
 const winner = color => {
     // when someone completes his pieces
@@ -718,39 +651,8 @@ const winner = color => {
 }
 
 
-const vertAction = () => {
-    playClick();
-    pausedGame = false;
-    document.getElementsByClassName("Overlay").classList.add("hidden");
-    document.getElementById("verify-overlay").classList.add("hidden");
-    let action = document.getElementById("store-act").innerHTML;
-    eval(action);
-}
 
-
-const closeVert = () => {
-    playClick();
-    document.getElementById("store-act").innerHTML = "";
-    closeOverlays();
-
-    pausedGame = false;
-    pauseBtn.classList.remove("invisible");
-    
-    if (activePlayer.isBot) setTimeout(rollDice, 500);
-}
-
-
-const resume = () => {
-    playClick();
-    closeOverlays();
-    pausedGame = false;
-    pauseBtn.classList.remove("invisible");
-
-    if (activePlayer.isBot) setTimeout(rollDice, 500);
-}
-
-
-function closeOverlays() {
+export function closeOverlays() {
     ["#winner-overlay", "#pause-overlay", "#verify-overlay", ".Overlay"]
         .forEach(str => document.querySelector(str).classList.add("hidden"))
 }

@@ -1,4 +1,4 @@
-import { playClick } from "./audio";
+import { playClick, playError } from "./audio";
 import { allColors } from "./cells";
 import { initDice } from "./Roll_The_Dice/roll_dice";
 import { makePieces, updateTurn } from "./script";
@@ -53,8 +53,8 @@ function addPlayer(e){
                 <div class="usr-icon w-7 aspect-square rounded-full"></div>
                 <input type="text" class="xinput bg-inherit outline-none border-none" placeholder="Player ${count + 1} Name" value="BOT" autocapitalize="characters" maxlength="15">
             </label>
-            <button type="button" class="icon-btn bg-red-600 absolute top-1/2 -translate-y-1/2 left-[calc(100% + 5px)]">
-                <i class="fa-solid fa-xmark></i>
+            <button type="button" class="icon-btn bg-red-600 absolute top-1/2 -translate-y-1/2 left-full">
+                <i class="fa-solid fa-xmark"></i>
             </button>
         `)
     
@@ -72,7 +72,7 @@ function removePlayer(e){
     e.stopPropagation();
 
     const inputs = document.querySelectorAll("#registration-form .nameInput:not( :disabled)");
-    count = inputs.length;
+    const count = inputs.length;
     addPlayerBtn.hidden = addPlayerBtn.disabled = false;
 
     if (count < 3) return 

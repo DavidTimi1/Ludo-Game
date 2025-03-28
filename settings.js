@@ -1,4 +1,9 @@
 import { playClick } from "./audio";
+import { rollDice, setRoll } from "./Roll_The_Dice/roll_dice";
+import { closeOverlays, getActivePlayer } from "./script";
+
+export let pausedGame = false;
+export let AUTO = true;
 
 function changeAUTO(){
     if (document.getElementById("switch-cont").classList.contains("on")){
@@ -16,10 +21,8 @@ function changeAUTO(){
     }
     playClick();
 }
-// document.getElementById("switch-cont").addEventListener('mousedown',changeAUTO);
-document.getElementById("switch-cont").addEventListener('click',changeAUTO);
 
-let AUTO = false;
+document.getElementById("auto-play").addEventListener('click',changeAUTO);
 
 export const toggleSettings = (n)=>{
     let wrapper = document.getElementsByClassName("settings-wrapper")[0];
@@ -87,6 +90,15 @@ const vol = (type)=>{
 
 
 const pauseBtn = document.getElementById("pause-all");
+for (let btn of document.getElementsByClassName("resume-btn")) 
+    btn.addEventListener("click", resumeGame);
+
+for (let btn of document.getElementsByClassName("vert-restart")) 
+    btn.addEventListener("click", () => verify(restartGame));
+
+for (let btn of document.getElementsByClassName("vert-mainmenu")) 
+    btn.addEventListener("click", () => verify(toMainMenu));
+
 
 export const pauseAll = () => {
     playClick();
@@ -94,4 +106,92 @@ export const pauseAll = () => {
     pauseBtn.classList.add("invisible");
     document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
     document.getElementById("pause-overlay").classList.remove("hidden");
+}
+
+export function resumeGame(){
+    playClick();
+    closeOverlays();
+    pausedGame = false;
+    pauseBtn.classList.remove("invisible");
+
+    if (getActivePlayer().isBot) setTimeout(rollDice, 500);
+}
+
+
+
+const performApprovedAction = (action) => {
+    playClick();
+    pausedGame = false;
+    document.getElementsByClassName("Overlay").classList.add("hidden");
+    document.getElementById("verify-overlay").classList.add("hidden");
+    action?.();
+}
+
+function restartGame(){
+    turn = -1;
+    clearAll();
+    closeOverlays();
+    pauseBtn.classList.remove("invisible");
+    setRoll(true);
+    rollDice();
+}
+
+function verify(func){
+    playClick();
+    pausedGame = true;
+    pauseBtn.classList.add("invisible");
+    document.getElementById("pause-overlay").classList.add("hidden");
+    document.getElementsByClassName("Overlay")[0].classList.remove("hidden");
+    document.getElementById("verify-overlay").classList.remove("hidden");
+
+    document.getElementById("verify-yes").onclick = () => performApprovedAction(func);
+    document.getElementById("verify-no").onclick = resumeGame;
+
+    // stop listening
+    document.getElementById("verify-yes").onclick = document.getElementById("verify-no").onclick = null;
+}
+
+
+const clearAll = () => {
+    turn = -1;
+    for (let color of colors) {
+        let group = getGroup(color)
+
+        let allCells = document.getElementsByTagName("td");
+        for (let cell of allCells)
+            cell.classList.remove(`${color}p`, "occupied", `${color}block`, "block");
+
+        for (let i = 0; i < 4; i++) {
+            let p = document.getElementById(group[i].id);
+            // arrangePile(null, p);
+            document.getElementById(`${color}house`).append(p);
+            group[i].pos = color + "house";
+
+            turnDivs[i].classList.add("hidden");
+        }
+    }
+    timesPlayedSix = 0;
+}
+
+
+const inputs = document.querySelectorAll(".register input");
+const inputWrap = elem => elem.closest("label");
+
+const toMainMenu = () => {
+    clearAll();
+    closeOverlays();
+
+    inputs.forEach(inp => {
+        inp.classList.remove("valid");
+        inp.value = ""
+
+        let wrap = inputWrap(inp);
+        wrap.classList.remove("valid");
+        wrap.classList.add("hidden");
+    });
+
+    setRoll(true);
+    document.getElementsByClassName("game-wrapper")[0].classList.add("invisible");
+    document.getElementById("preGame-overlay").classList.remove("hidden");
+    document.getElementsByClassName("_0")[0].classList.remove("hidden");
 }

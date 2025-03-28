@@ -10,7 +10,7 @@
     "dev": "vite",
     "watch:css": "postcss styles.css -o output.css --watch",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist --add"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/DavidTimi1/Ludo-Game/issues"
   },
-  "homepage": "https://davidtimi1.github.io/Ludo/",
+  "homepage": "https://davidtimi1.github.io/Ludo-Game/",
   "devDependencies": {
     "gh-pages": "^6.3.0",
     "postcss-cli": "^11.0.0",
