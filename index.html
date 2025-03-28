@@ -37,8 +37,8 @@
     <meta name="twitter:url" content="https://raw.githack.com/DavidTimi1/Chess/chess1">
     
     <script src="https://kit.fontawesome.com/9564db1e37.js" crossorigin="anonymous"></script>
-  <script type="module" crossorigin src="/Ludo-Game/assets/index-D8xXHbZS.js"></script>
-  <link rel="stylesheet" crossorigin href="/Ludo-Game/assets/index-BDaPcJjc.css">
+  <script type="module" crossorigin src="/Ludo-Game/assets/index-c-vouH5b.js"></script>
+  <link rel="stylesheet" crossorigin href="/Ludo-Game/assets/index-BfQDfS4z.css">
 </head>
 
 <style>
@@ -77,88 +77,24 @@
     <audio src="/Ludo-Game/assets/safe-D3acWqRj.mp3" id="safe-sound" class="music-sound"></audio>
     <audio src="/Ludo-Game/assets/slide-BbLN6DTa.mp3" id="slide-sound" class="music-sound"></audio>
     <!-- <audio id="glow-sound" class="game-music" src="assets/audio/glow2.mp3"></audio> -->
-    <!-- <script>
-        document.getElementById("glow-sound").playbackRate = 1;
-        document.getElementById("glow-sound").loop = true;
-    </script> -->
 
-    <div class="settings-container">
-        <div class="settings-wrapper close">
-            <div class="settings-head">
-                <button onclick="toggleSettings('in')"><i class="fa-solid fa-gear"></i></button>
-                <span>SETTINGS</span>
-            </div>
-            
-            <div class="other-settings">
-                <div id="auto-play">
-                    <span> AUTO-PLAY </span>
-                    <span id="switch-cont" class="on">
-                        <span id="auto-off">ON</span><span id="auto-on">OFF</span>
-                    </span>
-                </div>
-                <div class="sound">
-                    <div id="vol">
-                        <span id="vol-icon">
-                            <i class="fa-solid fa-volume-high active"></i>
-                        </span>
-                        <input type="range" id="vol-slide" min="0" max="5" value="5" onchange="vol('vol')">
-                    </div>
-                    <div id="music">
-                        <span id="music-icon">
-                            <i class="fa-solid fa-music active"></i>
-                        </span>
-                        <input type="range" id="music-slide" min="0" max="5" value="5" onchange="vol('music')">
-                    </div>
-                </div>
-                <span class="disable">
-                    <input type="checkbox" id="no-image" checked="true">
-                    Disable Colour Home Background Images
-                </span>
-                <div class="house-colour-images">
-                    <div id="football-images" class="house-images-list"></div>
-                    <div id="anime-images" class="house-images-list"></div>
-                    <div id="marvel-images" class="house-images-list"></div>
-                    <div id="dc-images" class="house-images-list"></div>
-                </div>
-            </div>
-
-            <footer>
-                <div class="contact">
-                    <p id="phone" class="info" onclick="copy('phone')">
-                        <i class="fa-solid fa-phone"></i>
-                        <small> +234 9022301155 </small>
-                    </p>
-                    <p><a id="mail" class="info" href="mailto:timiballer07@gmail.com">
-                        <i class="fa-solid fa-envelope"></i>
-                        <small>timiballer07@gmail.com</small>
-                    </a></p>
-                </div>
-                  <script>
-                    function copy(id) {
-                        // Get the text field
-                        var copyText = document.getElementById(`${id}`);
-
-                        // Select the text field
-                        copyText.select();
-                        copyText.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(copyText.value);
-
-                        // Alert the copied text
-                        alert("Copied the text: " + copyText.value);
-                    }
-                  </script>
-                <small>Copyright &copy; <span id="year"></span> David. All Rights Reserved</small>
-                <script>
-                    let date = new Date();
-                    document.getElementById("year").innerHTML = date.getFullYear();
-                </script>
-            </footer>
-        </div>
-    </div>
 
     <div id="preGame-overlay" class="fixed top-0 left-0 w-full h-full text-center">
+
+        <div class="absolute top-5 right-10">
+            <a href="https://github.com/DavidTimi1/Ludo-Game" target="_blank" rel="noreferrer">
+                <!-- GITHUB icon svg -->
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-7 h-7 text-gray-400 hover:text-gray-200"
+                >
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.725-4.042-1.61-4.042-1.61-.546-1.385-1.332-1.755-1.332-1.755-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.24 1.84 1.24 1.07 1.835 2.805 1.305 3.49.998.108-.775.418-1.305.76-1.605-2.665-.305-5.466-1.335-5.466-5.93 0-1.31.47-2.38 1.235-3.22-.125-.305-.535-1.54.115-3.205 0 0 1.005-.32 3.3 1.23.96-.265 1.98-.4 3-.405 1.02.005 2.04.14 3 .405 2.28-1.55 3.285-1.23 3.285-1.23.655 1.665.245 2.9.12 3.205.77.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.43.37.81 1.1.81 2.22 0 1.605-.015 2.895-.015 3.285 0 .32.215.695.825.575C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+            </a>
+            <span class="sr-only"> Star on github </span>
+        </div>
 
         <!-- First view -->
         <div class="title preGame _0">
@@ -248,10 +184,16 @@
 
             </div>
         </form>
+
+        
+        <footer class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm font-extralight text-gray-400">
+            Created with ❤ by
+            <a class="text-gray-200 font-medium underline hover:text-white" href="https://github.com/DavidTimi1" target="_blank" rel="noreferrer"> TimiDev </a>
+        </footer>
     </div>
 
     <div class="flex flex-col h-full w-full overflow-x-hidden items-center invisible _3">
-        <h2 id="turn-div" class="text-2xl">
+        <h2 id="turn-div" class="text-2xl text-center font-normal mb-3">
             <!-- current player -->
         </h2>
         
@@ -505,11 +447,34 @@
     <div class="Overlay hidden">
         <div id="pause-overlay" class="hidden">
             <h3>Paused</h3>
+
+            <div class="settings">
+                <div class="sound">
+                    <div id="vol">
+                        <span id="vol-icon">
+                            <i class="fa-solid fa-volume-high active"></i>
+                        </span>
+                        <input type="range" id="vol-slide" min="0" max="5" value="5">
+                    </div>
+                    <div id="music">
+                        <span id="music-icon">
+                            <i class="fa-solid fa-music active"></i>
+                        </span>
+                        <input type="range" id="music-slide" min="0" max="5" value="5">
+                    </div>
+                </div>
+
+                <label class="switch-cont w-16 h-8 rounded-xl">
+                    <span class="sr-only">Autoplay is</span>
+                    <input type="checkbox" checked id="auto-play" value="ON">
+                    </input>
+                </label>
+            </div>
             <div class="win-but">
-                <button id="resume" onclick="resume()"><i class="fa-solid fa-play"></i></button>
-                <button onclick="toggleSettings('out')"><i class="fa-solid fa-gear open"></i></button>
-                <button onclick="verify('restartGame()')"><i class="fa-solid fa-rotate"></i></button>
-                <button onclick="verify('toMainMenu()')"><i class="fa-solid fa-house"></i></button>
+                <button class="resume-btn"><i class="fa-solid fa-play"></i></button>
+                <button id="settings-open"><i class="fa-solid fa-gear open"></i></button>
+                <button class="vert-restart"> </button><i class="fa-solid fa-rotate"></i></button>
+                <button class="vert-mainmenu"> <i class="fa-solid fa-house"></i></button>
             </div>
         </div>
         <div id="verify-overlay" class="hidden">
@@ -520,8 +485,8 @@
                 </p>
             </h2>
             <div class="vert-but">
-                <button id="yes" onclick="vertAction()">YES</button>
-                <button id="no" onclick="closeVert()">NO</button>
+                <button id="verify-yes">YES</button>
+                <button id="verify-no">NO</button>
             </div>
         </div>
         <div id="winner-overlay" class="hidden">
@@ -536,11 +501,11 @@
             </ol>
             <ul class="fa-ul"></ul>
             <div class="win-but">
-                <button id="resume" onclick="resume()" class="paused hidden"><i class="fa-solid fa-play"></i></button>
-                <button onclick="restartGame()" class="over hidden"><i class="fa-solid fa-rotate"></i></button>
-                <button onclick="toMainMenu()" class="over hidden"><i class="fa-solid fa-house"></i></button>
-                <button onclick="verify('restartGame()')" class="paused hidden"><i class="fa-solid fa-rotate"></i></button>
-                <button onclick="verify('toMainMenu()')" class="paused hidden"><i class="fa-solid fa-house"></i></button>
+                <button class="resume-btn" class="paused hidden"><i class="fa-solid fa-play"></i></button>
+                <!-- <button onclick="restartGame()" class="over hidden"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="toMainMenu()" class="over hidden"><i class="fa-solid fa-house"></i></button> -->
+                <button class="vert-restart paused hidden"><i class="fa-solid fa-rotate"></i></button>
+                <button class="vert-mainmenu paused hidden"><i class="fa-solid fa-house"></i></button>
             </div>
         </div> 
     </div>
