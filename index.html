@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludo Game</title>
+
+
+    <link rel="icon" href="white-queen.png" type="image/x-icon">
+
+    <link rel="preload" crossorigin="anonymous" href="https://kit.fontawesome.com/9564db1e37.js" as="script">
+
+    <!-- prefetch pieces -->
+    <link rel="prefetch" href="data:image/png;base64,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" as="image">
+    <link rel="prefetch" href="data:image/png;base64,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" as="image">
+    <link rel="prefetch" href="data:image/png;base64,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" as="image">
+    <link rel="prefetch" href="data:image/png;base64,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" as="image">
+    <link rel="prefetch" href="data:image/png;base64,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" as="image">
+    <link rel="prefetch" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAbpSURBVHhe7Z1brB1TGMf36UWrRUtTdUovaUS1VXfRNm6tUqoRrSARIUFdnsSjhkREwoN48yAIIRGREMKbBIk0PBCXuvRBUhIP4tpSLb36/c2anjnbOnvP3nvOXuubvf7JL7P27Nkz37fWrFnXWbuRlJSUlJSUlJSUlJSUlJSUVK0ONxpr4XoYcrvMaoLbmhWJcBSbdXApKJwUUiTIPPgEPoUFbrdZmc8haCkshHlwqnZYVh0S5BqY6bhKO5ICisfUDjjs2OZ2J4UQCXB+ITFyznRfm5TZRxYRL9tXZZ9GaQPfTXRhc7JchqjMWJ8FR2ktnJAF7clygqhmpRpWs04DfWdSlhNkDczJgqM0Gy7OgvZkOUHUOve1zCfD5VkwqS+i0F7oalRj8Q8op5iT1Ryix1UrKedcTaKY62w0lyBE8jQ2ZcqIDXBMFrQjiznkJDgnC7bUMtCxpmQxQS6EMp2IqvrqWFOymCCXwdFZsKWmwoosmDQuovyYDr+Dr2bl42dQwpiRtRyi2pW6TMpqFvj6u6KVmQThTp/CRo3BTqRq77X81szQrqUcciz4+q7a6QJQTjEhSwmicY7lWbAjLYGzsmD8spQgqjHNyIIdSTlLuSSpKlEGTIAvwVeTKsMXYK0CE6+IzGVw0EVuN+yHxe50USv6u4aInMTmZujFVp1jI+eKfmjXQjZWq7xM31U7qT0SfWejhQRZBFU8bpSo0T+2LCSIIrKKXlu1RaKv/pYewOH5ezobZXk9h/VM1jZ/JqslrKFTbYW+Vx+Stvk+tbT1WeMZ+p32Sdrqt6qeaqvv9Vuhz6dAVaN/O2EH7Ic98LdDn/+EvXAIpH1wEP5yYe3XVscfKGy1L9+v4yVthb7/71pE9Ha2bdVJgmxiswVOhjwx8gTReZrJc18ebv5exCxcPkKeSMWwtsVjcqQ8QcQP8BjOvs62OnGlIVgCH8A+8FUvEyNoXP9DWA7jd/Nx8sXwDPiMSIzwNGiOWH/Exe6H793FEyNo8vd9Lpr6Jy46FfQq2XfgM2wQUVwoTsINinHx+fAC6JnpM3IQkO8vQfgprBihwn4WPA67wGdwndkNT4LiIJ6aI8ZMhPXwLRwAn/F1Qj5uhyshr/7HJQxTN/kqeB98TtQJ+bgS4u/twMjJ8BT8Cj5nLCOf5Jt6EewIg2fALdDJtJ3YUXlxO3QzchmHMF7Z+j2wXK7Idvmw0rllVzihcmUBvAoaufM5HDOyWbbLBwu94+WEM9PgXvgRDoHP+ZiQjbL1bjA1+7G0cGwSbIKvwRcJMaEq7Q2gIYN6CyfnwlugQtIXGSHZA2/DXGfuYAiHh+ER8EVKSB4GjfkMpnD+RvjcRUZIZMN1zqzBFZGgcmW1i5SQXATBy4vg1bihbNw5hue1xu415BpUwROEu1KTHKqYd9WrNG8rn3gRTDE0dLQaw+osGFR6HzH4awsxJIiW5ZufBYNKdmhSXlDFkCB6zeC4LBhUWkEo+BopMSTIWGuW9FvqTg/eeRh0yJECfTqb3dmnKKQZiMNEym/Zx/4rdA5pt2ZJv6WcGtSmYAlC7tBrBhuzT1HpCmwL1rsbMoeoII/x9QC9WBpsicCQCaLFYfo31bK8dJPItiAKmSDdvlU73tJrEcF6DkImiJbhq2Lmht75eBlegV3a0aNk0zrKkXgmvY23cHYmVDE4pRktd4FmDYo73T7fsZ2wF8ys/tCTcFRTTzc7x7tFc2nfhLPdaY+IfefCG9DrOyy3Qv1zCU5OAU0080VCGf6AJ2AO/C/CtA9OdMf0MtdY73fUc3JDUTiZ/9+HLxJaoTteo3qXQNuyj2M013gN6Frd5JZa/B9JW+GkCsxuppg+D2dA6ceIjnW/eQ5852zFT2B2QebSwskHoeyEOc2N0nScze7nXYtz3APfuHP6rtWMZis+6n5eX+HkOwWnW6G1TbaC/pKi595gzqEJ4CtAs9bLrpvyrvt5PYWDetvK53gR3cFaK3ELVD5OwjlV5X4AfoF2uUW1uWH30/oJ524qODsWX4GmBo3bGAnnVm6RLdvAZ0OR26B+1V+c0txeFcw+p4UadC9CJ4tc9iSuNdtds1VjUjZrdYl6CacWwWfOyWYUIWqIHe8O75t0TXftsRLlY4hhzL9a4ZTGGZqru3pGvwbdrKVYqWSDs6X5beKd4PsnH9vCKRXSxQaaWtF6c1et6uDPaNngbGl+m1hV9IfcYfURTmndQzmoRFHruVSLu9+STc62Ygv/I6hPwY4zqmrmjcFnYSlE66BsczbK1vwmqkf1F0d0x6mLXC/p3OF2m5FsdrarpW8/l+CE1kSRM+eBrVeJkWx2tithtAhbUlJSUlJSUlJSUlJSUlLSgKjR+BfSi4w9Nzdq7AAAAABJRU5ErkJggg==" as="image">
+    <link rel="prefetch" href="data:image/png;base64,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" as="image">
+    <link rel="prefetch" href="data:image/png;base64,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" as="image">
+
+    <meta property="og:title" content="Ludo Game">
+    <meta property="og:description" content="Play the classical board game - Ludo with friends or against AI using this web-based implementation built with HTML, CSS and Javascript!">
+    <meta property="og:image" content="/diceroll.gif">
+    <meta property="og:url" content="/diceroll.gif">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ludo Game">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@DavidTimi_1">
+    <meta name="twitter:creator" content="@DavidTimi_1">
+    <meta name="twitter:title" content="Ludo Game">
+    <meta name="twitter:description" content="Play the classical board game - Ludo with friends or against AI using this web-based implementation built with HTML, CSS and Javascript!">
+    <meta name="twitter:image" content="">
+    <meta name="twitter:url" content="https://raw.githack.com/DavidTimi1/Chess/chess1">
+    
+    <script src="https://kit.fontawesome.com/9564db1e37.js" crossorigin="anonymous"></script>
+  <script type="module" crossorigin src="/Ludo/assets/index-D8xXHbZS.js"></script>
+  <link rel="stylesheet" crossorigin href="/Ludo/assets/index-BDaPcJjc.css">
+</head>
+
+<style>
+    :root, body {
+        background-color: #1e1e43;
+        color: white;
+        font-size: 18px;
+        font-weight: 500;
+        word-spacing: -1px;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+    * {
+        position: relative;
+        box-sizing: border-box;
+    }
+    
+</style>
+
+<body class="select-none">
+    <CustomHider class="hidden">
+        <img id="die-1" class="w-full h-full object-contain">
+    </CustomHider>
+
+
+    <audio src="/Ludo/assets/click-dWVBmG3F.mp3" id="click-sound" class="game-sound"></audio>
+    <audio src="/Ludo/assets/error-VpPFoGTD.mp3" id="error-sound" class="music-sound"></audio>
+    <audio src="/Ludo/assets/glow-5U_nBnv5.mp3" id="glow-sound" class="music-sound"></audio>
+    <audio src="/Ludo/assets/select-B50Z5WHa.mp3" id="select-sound" class="game-sound"></audio>
+    <audio src="/Ludo/assets/out-CsxgMv6F.mp3" id="out-sound" class="game-sound"></audio>
+    <audio src="/Ludo/assets/roll-Bhkxe1dT.mp3" id="roll-sound" class="game-sound"></audio>
+    <audio src="/Ludo/assets/capture-Bpqi0qIv.mp3" id="capture-sound" class="music-sound"></audio>
+    <audio src="/Ludo/assets/safe-D3acWqRj.mp3" id="safe-sound" class="music-sound"></audio>
+    <audio src="/Ludo/assets/slide-BbLN6DTa.mp3" id="slide-sound" class="music-sound"></audio>
+    <!-- <audio id="glow-sound" class="game-music" src="assets/audio/glow2.mp3"></audio> -->
+    <!-- <script>
+        document.getElementById("glow-sound").playbackRate = 1;
+        document.getElementById("glow-sound").loop = true;
+    </script> -->
+
+    <div class="settings-container">
+        <div class="settings-wrapper close">
+            <div class="settings-head">
+                <button onclick="toggleSettings('in')"><i class="fa-solid fa-gear"></i></button>
+                <span>SETTINGS</span>
+            </div>
+            
+            <div class="other-settings">
+                <div id="auto-play">
+                    <span> AUTO-PLAY </span>
+                    <span id="switch-cont" class="on">
+                        <span id="auto-off">ON</span><span id="auto-on">OFF</span>
+                    </span>
+                </div>
+                <div class="sound">
+                    <div id="vol">
+                        <span id="vol-icon">
+                            <i class="fa-solid fa-volume-high active"></i>
+                        </span>
+                        <input type="range" id="vol-slide" min="0" max="5" value="5" onchange="vol('vol')">
+                    </div>
+                    <div id="music">
+                        <span id="music-icon">
+                            <i class="fa-solid fa-music active"></i>
+                        </span>
+                        <input type="range" id="music-slide" min="0" max="5" value="5" onchange="vol('music')">
+                    </div>
+                </div>
+                <span class="disable">
+                    <input type="checkbox" id="no-image" checked="true">
+                    Disable Colour Home Background Images
+                </span>
+                <div class="house-colour-images">
+                    <div id="football-images" class="house-images-list"></div>
+                    <div id="anime-images" class="house-images-list"></div>
+                    <div id="marvel-images" class="house-images-list"></div>
+                    <div id="dc-images" class="house-images-list"></div>
+                </div>
+            </div>
+
+            <footer>
+                <div class="contact">
+                    <p id="phone" class="info" onclick="copy('phone')">
+                        <i class="fa-solid fa-phone"></i>
+                        <small> +234 9022301155 </small>
+                    </p>
+                    <p><a id="mail" class="info" href="mailto:timiballer07@gmail.com">
+                        <i class="fa-solid fa-envelope"></i>
+                        <small>timiballer07@gmail.com</small>
+                    </a></p>
+                </div>
+                  <script>
+                    function copy(id) {
+                        // Get the text field
+                        var copyText = document.getElementById(`${id}`);
+
+                        // Select the text field
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+                        // Copy the text inside the text field
+                        navigator.clipboard.writeText(copyText.value);
+
+                        // Alert the copied text
+                        alert("Copied the text: " + copyText.value);
+                    }
+                  </script>
+                <small>Copyright &copy; <span id="year"></span> David. All Rights Reserved</small>
+                <script>
+                    let date = new Date();
+                    document.getElementById("year").innerHTML = date.getFullYear();
+                </script>
+            </footer>
+        </div>
+    </div>
+
+    <div id="preGame-overlay" class="fixed top-0 left-0 w-full h-full text-center">
+
+        <!-- First view -->
+        <div class="title preGame _0">
+            <div class="flex flex-col items-center w-full gap-2">
+                <h1 class="text-5xl mb-4">
+                    LUDO GAME
+                </h1>
+
+                <button id="init-btn" class="btn" type="button">
+                    PLAY GAME
+                </button>
+            </div>
+        </div>
+
+        <!-- Pick mode -->
+        <div class="hidden preGame _1">
+
+            <h2 class="m-[revert] text-2xl">
+                CHOOSE A MODE 
+            </h2>
+
+            <div class="grid grid-cols-2 gap-4 w-full">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 aspect-square blur-2xl bg-pink-500">
+                </div>
+
+                <button data-mode="friends" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="/Ludo/assets/diceroll-xznCdaUU.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        PLAY WITH <br> FRIENDS
+                    </span>
+                </button>
+                <button data-mode="online" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="/Ludo/assets/diceroll-xznCdaUU.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        PLAY <br> ONLINE
+                    </span>
+                </button>
+                <button data-mode="pass" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="/Ludo/assets/diceroll-xznCdaUU.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        PASS 'N' PLAY
+                    </span>
+                </button>
+                <button data-mode="computer" class="play-mode rounded-lg flex flex-col items-stretch" type="button">
+                    <img src="/Ludo/assets/diceroll-xznCdaUU.gif" alt="" class="rounded-t-lg aspect-video w-full object-center object-cover">
+                    <span class="p-1 rounded-b-lg bg-purple-700 text-sm">
+                        COMPUTER
+                    </span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Third View -->
+        <form id="registration-form" class="hidden preGame _2">
+            <div class="flex flex-col items-center w-full gap-5">
+                <h2> REGISTER PLAYERS </h2>
+
+                <h3 id="reg-error" class="p-3 w-full text-sm text-red-800 rounded-lg border border-red-800 bg-red-300" hidden></h3>
+
+                <div class="w-full flex flex-col gap-3">
+                    <label class="nameInput flex align-center justify-center gap-2 focus-within:border-yellow-600 border rounded-xl bg-slate-800">
+                        <div class="usr-icon w-7 aspect-square rounded-full"></div>
+                        <input type="text" class="xinput bg-inherit outline-none border-none" placeholder="Player 1 Name" value="" autocapitalize="characters" maxlength="15">
+                    </label>
+    
+                    <label class="nameInput flex align-center justify-center gap-2 focus-within:border-yellow-600 border rounded-xl bg-slate-800">
+                        <div class="usr-icon w-7 aspect-square rounded-full"></div>
+                        <input type="text" class="xinput bg-inherit outline-none border-none" placeholder="Player 2 Name" value="BOT" autocapitalize="characters" maxlength="15">
+                    </label>
+                    
+                    <button id="add-player" class="w-full" type="button">
+                        <div class="opacity-20 flex align-center justify-center border gap-2 rounded-xl bg-slate-800">
+                            <div class="usr-icon w-7 aspect-square rounded-full"></div>
+                            <input placeholder="New player" type="text" class="xinput bg-inherit outline-none border-none" disabled />
+                        </div>
+                        <div class="absolute flex gap-2 items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <i class="fa-solid fa-plus icon-btn"></i>
+                            <span>Add player</span>
+                        </div>
+                    </button>
+                </div>
+                
+
+                <button id="start" class="btn">
+                    START GAME
+                </button>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="flex flex-col h-full w-full overflow-x-hidden items-center invisible _3">
+        <h2 id="turn-div" class="text-2xl">
+            <!-- current player -->
+        </h2>
+        
+        <button id="pause-all" type="button" class="invisible">
+            <i class="fa-solid fa-pause"></i>
+        </button>
+
+        <div class="flex flex-grow items-center justify-center">
+            <div class="max-content">
+
+            <table id="gameboard">
+                
+                <tr>
+                    <td rowspan="6" colspan="6" id="greenhouse" class="green rounded-tl-[3rem]">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <table class="centre-table">
+                            <tr>
+                                <td id="greenhouse0"></td>
+                            </tr>
+                            <tr>
+                                <td id="greenhouse1"></td>
+                                <td></td>
+                                <td id="greenhouse2"></td>
+                            </tr>
+                            <tr>
+                                <td id="greenhouse3"></td>
+                            </tr>
+                        </table></div>
+                    </td>
+                    <td id="cell11"  data-move="hor"></td>
+                    <td id="cell12" class="red-arrow home-come" data-move="hor"></td>
+                    <td id="cell13" data-move="hor"></td>
+                    <td rowspan="6" colspan="6" id="redhouse" class="red rounded-tr-[3rem]">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <table class="centre-table">
+                            <tr>
+                                <td id="redhouse0"></td>
+                            </tr>
+                            <tr>
+                                <td id="redhouse1"></td>
+                                <td></td>
+                                <td id="redhouse2"></td>
+                            </tr>
+                            <tr>
+                                <td id="redhouse3"></td>
+                            </tr>
+                        </table></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="cell10" data-move="vert"></td>
+                    <td id="cellSpecred1" class="red" data-move="vert"></td>
+                    <td id="cell14" class="red home-cell safe" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell9" class="red-star safe" data-move="vert"></td>
+                    <td id="cellSpecred2" class="red" data-move="vert"></td>
+                    <td id="cell15" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell8" data-move="vert"></td>
+                    <td id="cellSpecred3" class="red" data-move="vert"></td>
+                    <td id="cell16" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell7" data-move="vert"></td>
+                    <td id="cellSpecred4" class="red" data-move="vert"></td>
+                    <td id="cell17" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell6" data-move="vert"></td>
+                    <td id="cellSpecred5" class="red" data-move="vert"></td>
+                    <td id="cell18" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell52" data-move="vert"></td>
+                    <td id="cell1" class="green home-cell safe" data-move="hor"></td>
+                    <td id="cell2" data-move="hor"></td>
+                    <td id="cell3" data-move="hor"></td>
+                    <td id="cell4" data-move="hor"></td>
+                    <td id="cell5" data-move="hor"></td>
+                    <td rowspan="3" colspan="3" id="centre">
+                        <table class="centre-table">
+                            <tr>
+                                <td id="cellSpecred6" class="finish" data-move="vert"></td>
+                            </tr>
+                            <tr>
+                                <td id="cellSpecgreen6" class="finish" data-move="hor"></td>
+                                <td id="centre-finish"></td>
+                                <td id="cellSpecblue6" class="finish" data-move="hor"></td>
+                            </tr>
+                            <tr>
+                                <td id="cellSpecyellow6" class="finish" data-move="vert"></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td id="cell19" data-move="hor"></td>
+                    <td id="cell20" data-move="hor"></td>
+                    <td id="cell21" data-move="hor"></td>
+                    <td id="cell22" class="blue-star safe" data-move="hor"></td>
+                    <td id="cell23" data-move="hor"></td>
+                    <td id="cell24" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell51" class="green-arrow home-come" data-move="vert"></td>
+                    <td id="cellSpecgreen1" class="green" data-move="hor"></td>
+                    <td id="cellSpecgreen2" class="green" data-move="hor"></td>
+                    <td id="cellSpecgreen3" class="green" data-move="hor"></td>
+                    <td id="cellSpecgreen4" class="green" data-move="hor"></td>
+                    <td id="cellSpecgreen5" class="green" data-move="hor"></td>
+                    <td id="cellSpecblue5" class="blue" data-move="hor"></td>
+                    <td id="cellSpecblue4" class="blue" data-move="hor"></td>
+                    <td id="cellSpecblue3" class="blue" data-move="hor"></td>
+                    <td id="cellSpecblue2" class="blue" data-move="hor"></td>
+                    <td id="cellSpecblue1" class="blue" data-move="hor"></td>
+                    <td id="cell25" class="blue-arrow home-come" data-move="vert"></td>
+                </tr>
+                
+                <tr>
+                    <td id="cell50" data-move="vert"></td>
+                    <td id="cell49" data-move="hor"></td>
+                    <td id="cell48" class="green-star safe" data-move="hor"></td>
+                    <td id="cell47" data-move="hor"></td>
+                    <td id="cell46" data-move="hor"></td>
+                    <td id="cell45" data-move="hor"></td>
+                    <td id="cell31" data-move="hor"></td>
+                    <td id="cell30" data-move="hor"></td>
+                    <td id="cell29" data-move="hor"></td>
+                    <td id="cell28" data-move="hor"></td>
+                    <td id="cell27" class="blue home-cell safe"></td>
+                    <td id="cell26" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td rowspan="6" colspan="6" id="yellowhouse" class="yellow rounded-bl-[3rem]">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <table class="centre-table">
+                                <tr>
+                                    <td id="yellowhouse0"></td>
+                                </tr>
+                                <tr>
+                                    <td id="yellowhouse1"></td>
+                                    <td></td>
+                                    <td id="yellowhouse2"></td>
+                                </tr>
+                                <tr>
+                                    <td id="yellowhouse3"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td id="cell44" data-move="vert"></td>
+                    <td id="cellSpecyellow5" class="yellow" data-move="vert"></td>
+                    <td id="cell32" data-move="vert"></td>
+                    <td rowspan="6" colspan="6" id="bluehouse" class="blue rounded-br-[3rem]">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <table class="centre-table">
+                            <tr>
+                                <td id="bluehouse0"></td>
+                            </tr>
+                            <tr>
+                                <td id="bluehouse1"></td>
+                                <td></td>
+                                <td id="bluehouse2"></td>
+                            </tr>
+                            <tr>
+                                <td id="bluehouse3"></td>
+                            </tr>
+                        </table></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="cell43" data-move="vert"></td>
+                    <td id="cellSpecyellow4" class="yellow" data-move="vert"></td>
+                    <td id="cell33" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell42" data-move="vert"></td>
+                    <td id="cellSpecyellow3" class="yellow" data-move="vert"></td>
+                    <td id="cell34" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell41" data-move="vert"></td>
+                    <td id="cellSpecyellow2" class="yellow" data-move="vert"></td>
+                    <td id="cell35" class="yellow-star safe" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell40" class="yellow home-cell safe" data-move="vert"></td>
+                    <td id="cellSpecyellow1" class="yellow" data-move="vert"></td>
+                    <td id="cell36" data-move="vert"></td>
+                </tr>
+                <tr>
+                    <td id="cell39" data-move="hor"></td>
+                    <td id="cell38" class="yellow-arrow home-come" data-move="hor"></td>
+                    <td id="cell37" data-move="hor"></td>
+                </tr>
+            </table>
+            <!-- <div class="absolute w-full h-full top-0 left-0"> -->
+
+                <button data-colgroup="green" class="player-card absolute flex flex-row-reverse items-center p-0">
+                    <div class="dice-wrapper -mx-3 h-10 min-w-16 rounded-lg px-3 bg-green-700">
+                    </div>
+                    <div class="">
+                        <div class="h-16 w-16 border border-green-700 bg-black rounded-full p-icon"></div>
+                        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-green-700 rounded-xl px-2 py-1 p-name"></div>
+                    </div>
+                </button>
+                <button data-colgroup="red" class="player-card absolute flex flex-row-reverse items-center p-0">
+                    <div class="dice-wrapper -mx-3 h-10 min-w-16 rounded-lg px-3 bg-red-700">
+                    </div>
+                    <div class="">
+                        <div class="h-16 w-16 border border-red-700 bg-black rounded-full p-icon"></div>
+                        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-red-700 rounded-xl px-2 py-1 p-name"></div>
+                    </div>
+                </button>
+                <button data-colgroup="yellow" class="player-card absolute flex flex-row-reverse items-center p-0">
+                    <div class="dice-wrapper -mx-3 h-10 min-w-16 rounded-lg px-3 bg-yellow-700">
+                    </div>
+                    <div class="">
+                        <div class="h-16 w-16 border border-yellow-700 bg-black rounded-full p-icon"></div>
+                        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-yellow-700 rounded-xl px-2 py-1 p-name"></div>
+                    </div>
+                </button>
+                <button data-colgroup="blue" class="player-card absolute flex flex-row-reverse items-center p-0">
+                    <div class="dice-wrapper -mx-3 h-10 min-w-16 rounded-lg px-3 bg-blue-700">
+                    </div>
+                    <div class="">
+                        <div class="h-16 w-16 border border-blue-700 bg-black rounded-full p-icon"></div>
+                        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-blue-700 rounded-xl px-2 py-1 p-name"></div>
+                    </div>
+                </button>
+
+            <!-- </div> -->
+        </div>
+        </div>
+        
+    </div>
+
+    <span id="store-roll" class="hidden"></span>
+    <span id="store" class="hidden"></span>
+    <span id="store-act" class="hidden"></span>
+
+    <div class="hidden">
+        <i class="fa-solid fa-volume-xmark"></i>
+        <i class="fa-solid fa-volume-low"></i>
+        <span class="fa-stack fa-2x music-slash">
+            <i class="fa-solid fa-music fa-stack-1x"></i>
+            <i class="fa-solid fa-xmark fa-stack-1x"></i>            
+        </span>
+    </div>
+
+    <div class="Overlay hidden">
+        <div id="pause-overlay" class="hidden">
+            <h3>Paused</h3>
+            <div class="win-but">
+                <button id="resume" onclick="resume()"><i class="fa-solid fa-play"></i></button>
+                <button onclick="toggleSettings('out')"><i class="fa-solid fa-gear open"></i></button>
+                <button onclick="verify('restartGame()')"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="verify('toMainMenu()')"><i class="fa-solid fa-house"></i></button>
+            </div>
+        </div>
+        <div id="verify-overlay" class="hidden">
+            <h2>
+                This would delete your current game progress.
+                <p>
+                    Do you wish to continue ?
+                </p>
+            </h2>
+            <div class="vert-but">
+                <button id="yes" onclick="vertAction()">YES</button>
+                <button id="no" onclick="closeVert()">NO</button>
+            </div>
+        </div>
+        <div id="winner-overlay" class="hidden">
+            <h3 id="situation">
+                Game Over
+            </h3>
+            <ol>
+                <li id="place-1" class="rank hidden"></li>
+                <li id="place-2" class="rank hidden"></li>
+                <li id="place-3" class="rank hidden"></li>
+                <li id="place-4" class="rank hidden"></li>
+            </ol>
+            <ul class="fa-ul"></ul>
+            <div class="win-but">
+                <button id="resume" onclick="resume()" class="paused hidden"><i class="fa-solid fa-play"></i></button>
+                <button onclick="restartGame()" class="over hidden"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="toMainMenu()" class="over hidden"><i class="fa-solid fa-house"></i></button>
+                <button onclick="verify('restartGame()')" class="paused hidden"><i class="fa-solid fa-rotate"></i></button>
+                <button onclick="verify('toMainMenu()')" class="paused hidden"><i class="fa-solid fa-house"></i></button>
+            </div>
+        </div> 
+    </div>
+    
+</body>
+</html>
